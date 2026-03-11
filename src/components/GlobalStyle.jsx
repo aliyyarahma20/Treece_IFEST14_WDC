@@ -141,6 +141,87 @@ const GlobalStyle = () => (
 
     @media (max-width: 768px) { .hide-mobile { display: none !important; } }
     @media (min-width: 769px) { .show-mobile { display: none !important; } }
+
+    /* ── RESPONSIVE GRID UTILITIES ── */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 640px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── LANDING PAGE RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .landing-cta-banner {
+        flex-direction: column !important;
+        padding: 32px 24px !important;
+        text-align: center;
+      }
+      .landing-cta-banner button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ── PAGE HEADER RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .page-header-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+      }
+      .page-header-row > button,
+      .page-header-row > div > button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ── FORM GRID RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr !important;
+      }
+      .form-grid-2 > * {
+        grid-column: auto !important;
+      }
+    }
+
+    /* ── RECAP HERO STATS ── */
+    @media (max-width: 480px) {
+      .recap-hero-stats {
+        gap: 16px !important;
+      }
+      .recap-hero-badge {
+        position: static !important;
+        display: inline-flex;
+        margin-bottom: 12px;
+      }
+    }
+
+    /* ── POMODORO CENTERED LAYOUT ── */
+    @media (max-width: 480px) {
+      .pomodoro-wrap {
+        padding: 24px 16px !important;
+      }
+    }
+
+    /* ── HABIT TRACKER ── */
+    @media (max-width: 480px) {
+      .habit-day-grid {
+        gap: 4px !important;
+      }
+    }
+
+    /* ── GENERAL SMALL SCREEN FIXES ── */
+    @media (max-width: 480px) {
+      .stat-grid {
+        grid-template-columns: 1fr 1fr !important;
+      }
+    }
   `}</style>
 );
 

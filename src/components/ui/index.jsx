@@ -169,6 +169,7 @@ export function Select({ label, value, onChange, options, style = {} }) {
 export function PageHeader({ title, subtitle, action }) {
   return (
     <div
+      className="page-header-row"
       style={{
         display: "flex",
         justifyContent: "space-between",

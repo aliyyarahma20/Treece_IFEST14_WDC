@@ -72,7 +72,7 @@ export default function RecapPage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+      <div className="grid-2col" style={{ gap: 16, marginBottom: 16 }}>
         {/* Bar chart */}
         <Card>
           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, marginBottom: 16 }}>

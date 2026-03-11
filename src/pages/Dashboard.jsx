@@ -58,7 +58,7 @@ export default function Dashboard({ tasks }) {
       </div>
 
       {/* Charts */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+      <div className="grid-2col" style={{ gap: 16, marginBottom: 16 }}>
         {/* Weekly bar chart */}
         <Card>
           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -132,7 +132,7 @@ export default function Dashboard({ tasks }) {
       </div>
 
       {/* Recent + Targets */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16 }}>
+      <div className="grid-2col" style={{ gap: 16 }}>
         <Card>
           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between" }}>
             Tugas Terkini

@@ -68,7 +68,7 @@ export default function TargetPage() {
               onChange={(e) => setName(e.target.value)}
               placeholder="cth: Belajar 3 jam sehari..."
             />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div className="form-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
               <Select
                 label="Tipe"
                 value={type}

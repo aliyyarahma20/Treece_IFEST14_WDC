@@ -60,7 +60,7 @@ export default function TodoPage({ tasks, setTasks }) {
       {/* Add Form */}
       {showForm && (
         <Card className="scale-in" style={{ marginBottom: 20, border: "1.5px solid var(--accent)" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div className="form-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
             <div style={{ gridColumn: "1 / -1" }}>
               <Input
                 label="Nama Tugas"

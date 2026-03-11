@@ -260,6 +260,7 @@ export default function Landing({ onEnter }) {
         style={{ padding: "0 5% 100px", maxWidth: 1100, margin: "0 auto" }}
       >
         <div
+          className="landing-cta-banner"
           style={{
             background: isDark
               ? "linear-gradient(135deg, #263510 0%, #1a2608 100%)"
