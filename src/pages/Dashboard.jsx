@@ -1,0 +1,194 @@
+import { CheckCircle2, Circle, Clock, Flame, AlertCircle } from "lucide-react";
+import { Card, ProgressBar } from "../components/ui/index.jsx";
+import { MONTHS, WEEKDAYS } from "../utils/helpers.js";
+
+function StatCard({ label, value, sub, icon, accent, delay = 0 }) {
+  return (
+    <Card
+      className="lift fade-up"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+        <div style={{ color: "var(--text2)", fontSize: "0.78rem", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.4px" }}>
+          {label}
+        </div>
+        <div style={{ color: accent, opacity: 0.75 }}>{icon}</div>
+      </div>
+      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.8rem", color: "var(--text)", lineHeight: 1, marginBottom: 4 }}>
+        {value}
+      </div>
+      <div style={{ fontSize: "0.75rem", color: "var(--text3)" }}>{sub}</div>
+    </Card>
+  );
+}
+
+export default function Dashboard({ tasks }) {
+  const today = new Date();
+  const done  = tasks.filter((t) => t.done).length;
+  const high  = tasks.filter((t) => t.priority === "high" && !t.done).length;
+
+  const weekActivity = [
+    { d: "Sen", h: 2.5 }, { d: "Sel", h: 4 }, { d: "Rab", h: 6 },
+    { d: "Kam", h: 3   }, { d: "Jum", h: 5 }, { d: "Sab", h: 1.5 }, { d: "Min", h: 2 },
+  ];
+  const maxH = Math.max(...weekActivity.map((w) => w.h));
+
+  const firstDay     = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+  const daysInMonth  = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+  const productive   = [2, 4, 5, 7, 9, 10, 11, 14, 16, 17, 18, 21, 23];
+
+  return (
+    <div className="fade-up">
+      {/* Greeting */}
+      <div style={{ marginBottom: 28 }}>
+        <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.6rem", color: "var(--text)", letterSpacing: "-0.5px", marginBottom: 4 }}>
+          Selamat datang kembali!
+        </h1>
+        <div style={{ fontSize: "0.88rem", color: "var(--text3)" }}>
+          {WEEKDAYS[today.getDay()]}, {today.getDate()} {MONTHS[today.getMonth()]} {today.getFullYear()}
+        </div>
+      </div>
+
+      {/* Stat Cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 14, marginBottom: 24 }}>
+        <StatCard label="Tugas Selesai"   value={done}    sub={`dari ${tasks.length} total`}          icon={<CheckCircle2 size={20}/>} accent="var(--accent)" delay={0}  />
+        <StatCard label="Prioritas Tinggi" value={high}   sub="perlu segera dikerjakan"               icon={<AlertCircle  size={20}/>} accent="var(--orange)" delay={80} />
+        <StatCard label="Streak"           value="5"      sub="hari berturut-turut"                   icon={<Flame        size={20}/>} accent="var(--peach)"  delay={160}/>
+        <StatCard label="Jam Belajar"      value="3.5h"   sub="hari ini"                              icon={<Clock        size={20}/>} accent="var(--lime)"   delay={240}/>
+      </div>
+
+      {/* Charts */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+        {/* Weekly bar chart */}
+        <Card>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            Aktivitas Minggu Ini
+            <span style={{ fontSize: "0.75rem", color: "var(--text3)", fontFamily: "'Outfit',sans-serif", fontWeight: 400 }}>Jam belajar</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 100 }}>
+            {weekActivity.map((w, i) => {
+              const isToday = i === ((today.getDay() + 6) % 7);
+              return (
+                <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: `${(w.h / maxH) * 90}%`,
+                      minHeight: 4,
+                      background: isToday ? "var(--orange)" : "var(--lime-mute)",
+                      border: isToday ? "none" : "1px solid var(--border)",
+                      borderRadius: "6px 6px 0 0",
+                      transition: "height 0.6s cubic-bezier(0.22,1,0.36,1)",
+                    }}
+                  />
+                  <span style={{ fontSize: "0.68rem", color: isToday ? "var(--accent)" : "var(--text3)", fontWeight: isToday ? 700 : 400 }}>
+                    {w.d}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        {/* Mini calendar */}
+        <Card>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            {MONTHS[today.getMonth()]} {today.getFullYear()}
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.72rem", color: "var(--text3)" }}>
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: "var(--lime)" }} />
+              Produktif
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 3 }}>
+            {["M","S","R","K","J","S","M"].map((d) => (
+              <div key={d} style={{ textAlign: "center", fontSize: "0.68rem", color: "var(--text3)", fontWeight: 600, paddingBottom: 4 }}>{d}</div>
+            ))}
+            {Array(firstDay).fill(null).map((_, i) => <div key={`e${i}`} />)}
+            {Array(daysInMonth).fill(null).map((_, i) => {
+              const d = i + 1;
+              const isToday = d === today.getDate();
+              const isProd  = productive.includes(d);
+              return (
+                <div
+                  key={d}
+                  style={{
+                    aspectRatio: "1",
+                    borderRadius: 6,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "0.73rem",
+                    background: isToday ? "var(--orange)" : isProd ? "var(--lime-mute)" : "transparent",
+                    color: isToday ? "#fff" : isProd ? "var(--accent)" : "var(--text3)",
+                    fontWeight: isToday ? 700 : 400,
+                  }}
+                >
+                  {d}
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+      </div>
+
+      {/* Recent + Targets */}
+      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16 }}>
+        <Card>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between" }}>
+            Tugas Terkini
+            <span style={{ fontSize: "0.78rem", color: "var(--text3)", fontFamily: "'Outfit',sans-serif", fontWeight: 400 }}>
+              {tasks.filter((t) => !t.done).length} belum selesai
+            </span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {tasks.slice(0, 5).map((t) => (
+              <div
+                key={t.id}
+                style={{
+                  display: "flex", alignItems: "center", gap: 10,
+                  padding: "8px 10px",
+                  background: t.done ? "var(--surface2)" : "transparent",
+                  borderRadius: 8, opacity: t.done ? 0.5 : 1,
+                }}
+              >
+                {t.done
+                  ? <CheckCircle2 size={15} color="var(--accent)" />
+                  : <Circle size={15} color="var(--text3)" />}
+                <span style={{ flex: 1, fontSize: "0.85rem", color: "var(--text)", textDecoration: t.done ? "line-through" : "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {t.name}
+                </span>
+                <div style={{ width: 6, height: 6, borderRadius: 99, flexShrink: 0, background: t.priority === "high" ? "var(--orange)" : t.priority === "medium" ? "var(--peach)" : "var(--lime)" }} />
+              </div>
+            ))}
+            {!tasks.length && (
+              <div style={{ textAlign: "center", color: "var(--text3)", fontSize: "0.85rem", padding: "16px 0" }}>
+                Belum ada tugas
+              </div>
+            )}
+          </div>
+        </Card>
+
+        <Card>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14 }}>
+            Progress Target
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {[
+              { label: "Jam Belajar",      current: 24,    goal: 30, color: "var(--accent)"  },
+              { label: "Tugas Selesai",    current: done,  goal: 20, color: "var(--orange)"  },
+              { label: "Hari Produktif",   current: 12,    goal: 20, color: "var(--peach)"   },
+            ].map((t, i) => (
+              <div key={i}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: "0.82rem" }}>
+                  <span style={{ color: "var(--text2)" }}>{t.label}</span>
+                  <span style={{ fontWeight: 600, color: "var(--text)" }}>{t.current}/{t.goal}</span>
+                </div>
+                <ProgressBar value={t.current} max={t.goal} color={t.color} />
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
