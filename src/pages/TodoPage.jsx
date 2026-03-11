@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Plus, Trash2, Edit3, Search, CheckSquare, Bell } from "lucide-react";
 import { useToast } from "../context/ToastContext.jsx";
+import { createCalendarEvent } from "../utils/calendarApi.js"; 
 import Button from "../components/ui/Button.jsx";
 import Input from "../components/ui/Input.jsx";
 import { Card, Badge, Select, PageHeader, Modal } from "../components/ui/index.jsx";
@@ -9,7 +10,7 @@ const PRIORITY_COLOR  = { high: "orange", medium: "peach", low: "lime" };
 const PRIORITY_LABEL  = { high: "Tinggi", medium: "Sedang", low: "Rendah" };
 const CATEGORY_LABEL  = { tugas: "Tugas", kuliah: "Kuliah", proyek: "Proyek", pribadi: "Pribadi" };
 
-export default function TodoPage({ tasks, setTasks }) {
+export default function TodoPage({ tasks, setTasks, user }) {
   const [remindTime, setRemindTime] = useState("");
   const [remindQuestion, setRemindQuestion] = useState("");
   const [activeReminder, setActiveReminder] = useState(null); // untuk modal verifikasi
@@ -23,8 +24,9 @@ export default function TodoPage({ tasks, setTasks }) {
   const [search,   setSearch]   = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  const add = () => {
-  if (!name.trim()) { toast("Nama tugas tidak boleh kosong!", "error"); return; }
+  const add = async () => {
+    if (!name.trim()) { toast("Nama tugas tidak boleh kosong!", "error"); return; }
+
     setTasks((p) => [
       {
         id: Date.now(),
@@ -34,18 +36,51 @@ export default function TodoPage({ tasks, setTasks }) {
         category,
         done: false,
         createdAt: new Date().toISOString(),
-        remindTime: remindTime || null,           // ← baru
-        remindQuestion: remindQuestion || null,   // ← baru
+        remindTime: remindTime || null,
+        remindQuestion: remindQuestion || null,
       },
       ...p,
     ]);
+    console.log("user accessToken:", user?.accessToken);
+    console.log("deadline:", deadline);
+    // Sync ke Google Calendar jika ada deadline
+    if (deadline && user?.accessToken) {
+      try {
+        await createCalendarEvent(user.accessToken, {
+          summary: `📚 ${name.trim()}`,
+          description: `Kategori: ${category} | Prioritas: ${PRIORITY_LABEL[priority]}`,
+          date: deadline,
+        });
+        toast("Tugas ditambahkan + tersync ke Google Calendar! 🗓️");
+      } catch {
+        toast("Tugas ditambahkan, tapi gagal sync kalender.");
+      }
+    } else {
+      toast("Tugas berhasil ditambahkan!");
+    }
+
     setName(""); setDeadline(""); setRemindTime(""); setRemindQuestion("");
     setShowForm(false);
-    toast("Tugas berhasil ditambahkan!");
   };
 
-  const confirmReminder = () => {
+  const confirmReminder = async () => {
     if (!answer.trim()) { toast("Jawab dulu pertanyaannya!", "error"); return; }
+
+    // Buat event di kalender sebagai catatan
+    if (user?.accessToken && activeReminder?.remindTime) {
+      const today = new Date().toISOString().slice(0, 10);
+      try {
+        await createCalendarEvent(user.accessToken, {
+          summary: `🔔 ${activeReminder.name}`,
+          description: `Jawaban: ${answer}`,
+          date: today,
+          time: activeReminder.remindTime,
+        });
+      } catch {
+        // silent fail, tidak perlu toast
+      }
+    }
+
     setActiveReminder(null);
     toast("Reminder selesai! Tetap semangat! 💪");
   };

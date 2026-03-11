@@ -16,6 +16,7 @@ export const NAV_ITEMS = [
   { id: "habit",     label: "Habit Tracker",    icon: Activity        },
 ];
 
+
 export default function Sidebar({ activePage, setPage, open, onClose, user, onLogout }) {
   return (
     <>
@@ -150,22 +151,24 @@ export default function Sidebar({ activePage, setPage, open, onClose, user, onLo
               gap: 10,
             }}
           >
-            <div
-              style={{
-                width: 32, height: 32,
-                borderRadius: 10,
-                background: "linear-gradient(135deg, var(--forest, #415111), var(--accent))",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--bg)",
-                fontWeight: 700,
-                fontSize: "0.85rem",
-                flexShrink: 0,
-              }}
-            >
-              {user?.name?.[0]?.toUpperCase() || "U"}
-            </div>
+           {user?.avatar ? (
+          <img
+            src={user.avatar}
+            width={32} height={32}
+            style={{ borderRadius: 10, objectFit: "cover", flexShrink: 0 }}
+            alt="avatar"
+          />
+        ) : (
+          <div style={{
+            width: 32, height: 32,
+            borderRadius: 10,
+            background: "linear-gradient(135deg, var(--forest, #415111), var(--accent))",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: "var(--bg)", fontWeight: 700, fontSize: "0.85rem", flexShrink: 0,
+          }}>
+            {user?.name?.[0]?.toUpperCase() || "U"}
+          </div>
+        )}
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{

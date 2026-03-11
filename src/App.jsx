@@ -50,7 +50,7 @@ function AppContent() {
 
   const PAGE_MAP = {
     dashboard: <Dashboard    tasks={tasks} />,
-    todo:      <TodoPage     tasks={tasks} setTasks={setTasks} />,
+    todo: <TodoPage tasks={tasks} setTasks={setTasks} user={user} />,
     target:    <TargetPage   />,
     recap:     <RecapPage    />,
     notes:     <NotesPage    />,

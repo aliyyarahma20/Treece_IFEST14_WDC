@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 import { LogIn, User, Eye, EyeOff } from "lucide-react";
 import { useToast } from "../context/ToastContext.jsx";
 import { Modal } from "./ui/index.jsx";
@@ -22,6 +23,25 @@ export default function LoginModal({ open, onClose, onLogin }) {
     onClose();
   };
 
+  const loginWithGoogle = useGoogleLogin({
+    scope: "https://www.googleapis.com/auth/calendar.events", // ← tambahkan ini
+    onSuccess: async (tokenResponse) => {
+      const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+      });
+      const profile = await res.json();
+      onLogin({
+        name: profile.name,
+        email: profile.email,
+        avatar: profile.picture,
+        accessToken: tokenResponse.access_token, // ← tambahkan ini
+      });
+      onClose();
+      toast("Selamat datang! 👋");
+    },
+    onError: () => toast("Login Google gagal, coba lagi."),
+  });
+
   return (
     <Modal open={open} onClose={onClose} maxW={420}>
       <div style={{ textAlign: "center", marginBottom: 28 }}>
@@ -39,6 +59,42 @@ export default function LoginModal({ open, onClose, onLogin }) {
         <div style={{ fontSize: "0.88rem", color: "var(--text2)" }}>
           Masuk untuk melanjutkan
         </div>
+      </div>
+
+      {/* Tombol Google */}
+      <button
+        onClick={() => loginWithGoogle()}
+        style={{
+          width: "100%",
+          padding: "11px",
+          borderRadius: 10,
+          border: "1.5px solid var(--border)",
+          background: "var(--surface2)",
+          color: "var(--text)",
+          fontSize: "0.9rem",
+          fontWeight: 600,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          marginBottom: 16,
+          transition: "all 0.15s",
+        }}
+      >
+        <img
+          src="https://www.google.com/favicon.ico"
+          width={18} height={18}
+          alt="Google"
+        />
+        Masuk dengan Google
+      </button>
+
+      {/* Divider */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+        <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
+        <span style={{ fontSize: "0.75rem", color: "var(--text3)" }}>atau</span>
+        <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
