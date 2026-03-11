@@ -10,7 +10,6 @@ export const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard",        icon: LayoutDashboard },
   { id: "todo",      label: "Task Manager",     icon: CheckSquare     },
   { id: "target",    label: "Target",           icon: Target          },
-  { id: "reminder",  label: "Smart Reminder",   icon: Bell            },
   { id: "recap",     label: "Monthly Recap",    icon: BarChart2       },
   { id: "notes",     label: "Catatan Belajar",  icon: BookOpen        },
   { id: "pomodoro",  label: "Pomodoro Timer",   icon: Timer           },

@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { Plus, Trash2, Edit3, Search, CheckSquare } from "lucide-react";
+import { Plus, Trash2, Edit3, Search, CheckSquare, Bell } from "lucide-react";
 import { useToast } from "../context/ToastContext.jsx";
 import Button from "../components/ui/Button.jsx";
 import Input from "../components/ui/Input.jsx";
-import { Card, Badge, Select, PageHeader } from "../components/ui/index.jsx";
+import { Card, Badge, Select, PageHeader, Modal } from "../components/ui/index.jsx";
 
 const PRIORITY_COLOR  = { high: "orange", medium: "peach", low: "lime" };
 const PRIORITY_LABEL  = { high: "Tinggi", medium: "Sedang", low: "Rendah" };
 const CATEGORY_LABEL  = { tugas: "Tugas", kuliah: "Kuliah", proyek: "Proyek", pribadi: "Pribadi" };
 
 export default function TodoPage({ tasks, setTasks }) {
+  const [remindTime, setRemindTime] = useState("");
+  const [remindQuestion, setRemindQuestion] = useState("");
+  const [activeReminder, setActiveReminder] = useState(null); // untuk modal verifikasi
+  const [answer, setAnswer] = useState("");
   const toast = useToast();
   const [name,     setName]     = useState("");
   const [deadline, setDeadline] = useState("");
@@ -20,13 +24,30 @@ export default function TodoPage({ tasks, setTasks }) {
   const [showForm, setShowForm] = useState(false);
 
   const add = () => {
-    if (!name.trim()) { toast("Nama tugas tidak boleh kosong!", "error"); return; }
+  if (!name.trim()) { toast("Nama tugas tidak boleh kosong!", "error"); return; }
     setTasks((p) => [
-      { id: Date.now(), name: name.trim(), deadline, priority, category, done: false, createdAt: new Date().toISOString() },
+      {
+        id: Date.now(),
+        name: name.trim(),
+        deadline,
+        priority,
+        category,
+        done: false,
+        createdAt: new Date().toISOString(),
+        remindTime: remindTime || null,           // ← baru
+        remindQuestion: remindQuestion || null,   // ← baru
+      },
       ...p,
     ]);
-    setName(""); setDeadline(""); setShowForm(false);
+    setName(""); setDeadline(""); setRemindTime(""); setRemindQuestion("");
+    setShowForm(false);
     toast("Tugas berhasil ditambahkan!");
+  };
+
+  const confirmReminder = () => {
+    if (!answer.trim()) { toast("Jawab dulu pertanyaannya!", "error"); return; }
+    setActiveReminder(null);
+    toast("Reminder selesai! Tetap semangat! 💪");
   };
 
   const toggle = (id) => setTasks((p) => p.map((t) => t.id === id ? { ...t, done: !t.done } : t));
@@ -101,6 +122,25 @@ export default function TodoPage({ tasks, setTasks }) {
                 { value: "pribadi", label: "Pribadi" },
               ]}
             />
+            <div>
+              <label style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--text2)", textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: 6 }}>
+                Reminder (opsional)
+              </label>
+              <input
+                type="time"
+                value={remindTime}
+                onChange={(e) => setRemindTime(e.target.value)}
+                style={{ width: "100%", padding: "11px 14px", border: "1.5px solid var(--border)", borderRadius: 10, background: "var(--surface2)", color: "var(--text)", fontSize: "0.9rem", outline: "none" }}
+              />
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <Input
+                label="Pertanyaan Verifikasi (opsional)"
+                value={remindQuestion}
+                onChange={(e) => setRemindQuestion(e.target.value)}
+                placeholder="cth: Sudah berapa persen kamu mengerjakannya?"
+              />
+            </div>
           </div>
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
             <Button variant="ghost" onClick={() => setShowForm(false)}>Batal</Button>
@@ -174,6 +214,7 @@ export default function TodoPage({ tasks, setTasks }) {
                   <Badge color={PRIORITY_COLOR[t.priority]}>{PRIORITY_LABEL[t.priority]}</Badge>
                   <Badge color="muted">{CATEGORY_LABEL[t.category]}</Badge>
                   {t.deadline && <Badge color="muted">{t.deadline}</Badge>}
+                  {t.remindTime && (<Badge color="orange">🔔 {t.remindTime}</Badge>)}
                 </div>
               </div>
               <button
@@ -184,10 +225,41 @@ export default function TodoPage({ tasks, setTasks }) {
               >
                 <Trash2 size={15} />
               </button>
+              {t.remindTime && !t.done && (
+              <button
+                onClick={() => { setActiveReminder(t); setAnswer(""); }}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--orange)", display: "flex", padding: 4, borderRadius: 6 }}
+              >
+                <Bell size={15} />
+              </button>
+            )}
             </div>
           ))
         )}
       </div>
+      <Modal open={!!activeReminder} onClose={() => setActiveReminder(null)}>
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.1rem", color: "var(--text)", marginBottom: 6 }}>
+            🔔 Reminder
+          </div>
+          <div style={{ fontSize: "0.9rem", color: "var(--text2)", marginBottom: 16 }}>
+            <strong>{activeReminder?.name}</strong>
+          </div>
+          <div style={{ fontSize: "0.85rem", color: "var(--text3)", marginBottom: 12 }}>
+            {activeReminder?.remindQuestion || "Sudah dikerjakan?"}
+          </div>
+          <Input
+            label="Jawaban kamu"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder="Tulis jawabanmu dulu sebelum dismiss..."
+            onKeyDown={(e) => e.key === "Enter" && confirmReminder()}
+          />
+        </div>
+        <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+          <Button onClick={confirmReminder}>Selesai ✓</Button>
+        </div>
+      </Modal>
     </div>
   );
 }
