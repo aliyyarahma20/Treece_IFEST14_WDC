@@ -12,7 +12,6 @@ import Landing      from "./pages/Landing.jsx";
 import Dashboard    from "./pages/Dashboard.jsx";
 import TodoPage     from "./pages/TodoPage.jsx";
 import TargetPage   from "./pages/TargetPage.jsx";
-import ReminderPage from "./pages/ReminderPage.jsx";
 import RecapPage    from "./pages/RecapPage.jsx";
 import NotesPage    from "./pages/NotesPage.jsx";
 import PomodoroPage from "./pages/PomodoroPage.jsx";
@@ -53,7 +52,6 @@ function AppContent() {
     dashboard: <Dashboard    tasks={tasks} />,
     todo:      <TodoPage     tasks={tasks} setTasks={setTasks} />,
     target:    <TargetPage   />,
-    reminder:  <ReminderPage />,
     recap:     <RecapPage    />,
     notes:     <NotesPage    />,
     pomodoro:  <PomodoroPage />,
