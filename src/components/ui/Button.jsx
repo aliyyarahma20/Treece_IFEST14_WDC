@@ -28,6 +28,7 @@ export default function Button({
   style = {},
   disabled = false,
   type = "button",
+  className = "", 
 }) {
   const [hover, setHover] = useState(false);
 
@@ -35,6 +36,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
+      className={className} 
       disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
