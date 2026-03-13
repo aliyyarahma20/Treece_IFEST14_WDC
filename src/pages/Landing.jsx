@@ -1,87 +1,143 @@
 import { useState, useEffect, useRef } from "react";
 import {
-  LayoutDashboard, CheckSquare, Target, Bell, BarChart2,
-  BookOpen, Timer, Activity, ArrowRight, ChevronRight,
-  Sparkles, Zap,
+  LayoutDashboard, CheckSquare, Target, BarChart2,
+  BookOpen, Timer, ArrowRight, ChevronRight, Zap,
 } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
-import ThemeToggle from "../components/ThemeToggle.jsx";
 import Button from "../components/ui/Button.jsx";
 
 const FEATURES = [
-  { icon: <LayoutDashboard size={22} />, title: "Dashboard Produktivitas",   desc: "Visualisasi real-time progress harian lewat grafik, streak, dan kalender aktivitas." },
-  { icon: <CheckSquare     size={22} />, title: "Task Manager Canggih",      desc: "Kelola tugas dengan deadline, prioritas, dan kategori. Filter cepat untuk fokus." },
-  { icon: <Target          size={22} />, title: "Target & Goal Setting",     desc: "Set target belajar dan pantau pencapaian dengan progress bar yang memotivasi." },
-  { icon: <Bell            size={22} />, title: "Smart Reminder",            desc: "Pengingat yang tidak bisa di-dismiss tanpa menjawab pertanyaan verifikasi." },
-  { icon: <BarChart2       size={22} />, title: "Monthly Recap",             desc: "Rekap bulanan lengkap: tugas, jam belajar, hari produktif, dan insight waktu." },
-  { icon: <BookOpen        size={22} />, title: "Catatan Belajar",           desc: "Note-taking terstruktur per mata kuliah dengan tag dan pencarian cepat." },
-  { icon: <Timer           size={22} />, title: "Pomodoro Timer",            desc: "Teknik Pomodoro built-in — fokus 25 menit, istirahat 5 menit." },
-  { icon: <Activity        size={22} />, title: "Habit Tracker",             desc: "Bangun kebiasaan baik dengan tracker harian dan streak counter." },
+  {
+    id: "dashboard",
+    icon: <LayoutDashboard size={22} />,
+    title: "Dashboard Produktivitas",
+    desc: "Tidak ada lagi hari yang terasa sia-sia. Lihat semua progress harianmu dalam satu pandangan — grafik, streak, dan kalender aktivitas.",
+    tag: "Overview",
+    preview: <img src="/images/preview-dashboard.png" alt="Dashboard" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+  },
+  {
+    id: "todo",
+    icon: <CheckSquare size={22} />,
+    title: "Task Manager",
+    desc: "Tidak ada lagi tugas yang terlupakan di detik terakhir. Atur prioritas, set deadline, dan reminder verifikasi yang memastikan kamu benar-benar mengerjakan.",
+    tag: "Produktivitas",
+    preview: <img src="/images/preview-todo.png" alt="Task Manager" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+  },
+  {
+    id: "target",
+    icon: <Target size={22} />,
+    title: "Target",
+    desc: "Set target belajarmu, lalu selesaikan dengan sesi Pomodoro terintegrasi. Dari niat jadi aksi — semua dalam satu halaman.",
+    tag: "Goals",
+    preview: <img src="/images/preview-target.png" alt="Target" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+  },
+  {
+    id: "recap",
+    icon: <BarChart2 size={22} />,
+    title: "Monthly Recap",
+    desc: "Bukan sekadar data — ini cermin produktivitasmu. Lihat mana hari terbaikmu, kapan kamu paling fokus, dan berapa jauh kamu sudah berkembang.",
+    tag: "Insight",
+    preview: <img src="/images/preview-recap.png" alt="Monthly Recap" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+  },
+  {
+    id: "notes",
+    icon: <BookOpen size={22} />,
+    title: "Catatan Belajar",
+    desc: "Satu tempat untuk semua catatan kuliahmu. Terstruktur per mata kuliah, mudah dicari, dan selalu siap saat mau belajar.",
+    tag: "Belajar",
+    preview: <img src="/images/preview-notes.png" alt="Catatan Belajar" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+  },
 ];
 
-function FeatureCard({ icon, title, desc }) {
-  const [hover, setHover] = useState(false);
+function FeatureTab({ f, active, onClick }) {
+  const [hovered, setHovered] = useState(false);
   return (
-    <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        background: hover ? "var(--surface)" : "var(--surface2)",
-        border: `1.5px solid ${hover ? "var(--accent)" : "var(--border)"}`,
-        borderRadius: 16,
-        padding: "22px 20px",
-        transition: "all 0.25s",
-        cursor: "default",
-        transform: hover ? "translateY(-3px)" : "none",
-        boxShadow: hover ? "var(--shadow-lg)" : "none",
+        width: "100%", textAlign: "left",
+        padding: "14px 16px", borderRadius: 14,
+        border: `1px solid ${active ? "var(--accent)" : hovered ? "var(--border)" : "transparent"}`,
+        cursor: "pointer",
+        background: active ? "var(--lime-mute)" : hovered ? "var(--surface2)" : "transparent",
+        transition: "all 0.2s",
+        display: "flex", alignItems: "center", gap: 12,
+        marginBottom: 2,
       }}
     >
-      <div
-        style={{
-          width: 44, height: 44,
-          borderRadius: 12,
-          background: "var(--lime-mute)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "var(--accent)",
-          marginBottom: 14,
-          transition: "transform 0.2s",
-          transform: hover ? "scale(1.1)" : "none",
-        }}
-      >
-        {icon}
+      <div style={{
+        width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+        background: active ? "var(--accent)" : "var(--surface2)",
+        border: `1px solid ${active ? "var(--accent)" : "var(--border)"}`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        color: active ? "var(--bg)" : "var(--text3)",
+        transition: "all 0.2s",
+      }}>
+        {f.icon}
       </div>
-      <div
-        style={{
-          fontFamily: "'Syne', sans-serif",
-          fontWeight: 700,
-          fontSize: "0.95rem",
-          color: "var(--text)",
-          marginBottom: 8,
-        }}
-      >
-        {title}
+      <div className="hide-mobile" style={{ minWidth: 0 }}>
+        <div style={{ fontSize: "0.88rem", fontWeight: active ? 700 : 500, color: active ? "var(--accent)" : "var(--text2)", marginBottom: 2 }}>
+          {f.title}
+        </div>
+        <div style={{ fontSize: "0.68rem", color: "var(--text3)", fontWeight: 500 }}>
+          {f.tag}
+        </div>
       </div>
-      <div style={{ fontSize: "0.83rem", color: "var(--text2)", lineHeight: 1.65 }}>
-        {desc}
-      </div>
-    </div>
+      {active && (
+        <div style={{ marginLeft: "auto", flexShrink: 0 }}>
+          <ArrowRight size={14} color="var(--accent)" />
+        </div>
+      )}
+    </button>
   );
 }
 
 export default function Landing({ onEnter }) {
-  const { theme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
-  const featRef = useRef();
-  const isDark = theme === "dark";
+  const [activeFeature, setActiveFeature] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [activeSection, setActiveSection] = useState(0);
 
+  const heroRef = useRef();
+  const featRef = useRef();
+  const ctaRef  = useRef();
+
+  // Scroll spy
+  useEffect(() => {
+    const sections = [heroRef, featRef, ctaRef];
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const idx = sections.findIndex((r) => r.current === e.target);
+            if (idx !== -1) setActiveSection(idx);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    sections.forEach((r) => { if (r.current) obs.observe(r.current); });
+    return () => obs.disconnect();
+  }, []);
+
+  // Auto-rotate fitur
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveFeature((p) => (p + 1) % FEATURES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
+  // Navbar scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Section reveal on scroll
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
@@ -94,145 +150,204 @@ export default function Landing({ onEnter }) {
   return (
     <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
 
-      {/* NAVBAR */}
-      <nav
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-          padding: "0 5%",
-          background: scrolled
-            ? isDark ? "rgba(17,26,5,0.9)" : "rgba(242,232,223,0.9)"
-            : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--border)" : "none",
-          transition: "all 0.3s",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          height: 64,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Syne', sans-serif",
-            fontWeight: 800,
-            fontSize: "1.2rem",
-            color: "var(--accent)",
-          }}
-        >
+      {/* ── NAVBAR ── */}
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        padding: "0 5%",
+        background: scrolled ? "rgba(242,232,223,0.9)" : "transparent",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--border)" : "none",
+        transition: "all 0.3s",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        height: 64,
+      }}>
+        <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "var(--accent)" }}>
           Steady<span style={{ color: "var(--orange)" }}>Rise</span>
         </span>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <ThemeToggle />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            {[
+              { label: "Fitur",   ref: featRef },
+              { label: "Tentang", ref: ctaRef  },
+            ].map((l, i) => (
+              <button
+                key={i}
+                onClick={() => l.ref.current?.scrollIntoView({ behavior: "smooth" })}
+                style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  fontSize: "0.88rem", fontWeight: 500, color: "var(--text2)",
+                  fontFamily: "'Outfit',sans-serif", transition: "color 0.15s", padding: 0,
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = "var(--accent)"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "var(--text2)"}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
+
           <Button onClick={onEnter} size="sm">
-            Mulai Sekarang <ChevronRight size={15} />
+            <span className="hide-mobile">Mulai Sekarang</span>
+            <span className="show-mobile">Mulai</span>
+            <ChevronRight size={15} />
           </Button>
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* ── HERO ── */}
       <section
+        ref={heroRef}
         style={{
           minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "80px 5% 60px",
-          position: "relative",
-          overflow: "hidden",
-          flexDirection: "column",
-          textAlign: "center",
+          display: "flex", flexDirection: "column", justifyContent: "center",
+          padding: "100px 6% 60px",
+          position: "relative", overflow: "hidden",
         }}
       >
-        <div className="hero-blob" style={{ width: 500, height: 500, background: isDark ? "rgba(210,225,134,0.06)" : "rgba(210,225,134,0.4)", top: -120, right: -120 }} />
-        <div className="hero-blob" style={{ width: 400, height: 400, background: isDark ? "rgba(251,129,89,0.05)" : "rgba(251,129,89,0.2)", bottom: -80, left: -80 }} />
-        <div className="hero-blob" style={{ width: 280, height: 280, background: isDark ? "rgba(65,81,17,0.15)" : "rgba(65,81,17,0.07)", top: "40%", left: "30%" }} />
+        <div className="hero-blob" style={{ width: 500, height: 500, background: "rgba(210,225,134,0.35)", top: -100, right: -100 }} />
+        <div className="hero-blob" style={{ width: 350, height: 350, background: "rgba(251,129,89,0.15)", bottom: 0, left: -80 }} />
 
-        <div className="fade-up" style={{ position: "relative", zIndex: 1, maxWidth: 760 }}>
-          <div
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              background: "var(--lime-mute)", border: "1px solid var(--border)",
-              borderRadius: 99, padding: "6px 16px", marginBottom: 28,
-              fontSize: "0.8rem", fontWeight: 600, color: "var(--accent)",
-            }}
-          >
-            <Sparkles size={14} />
-            Platform Produktivitas untuk Mahasiswa Indonesia
-          </div>
+        {/* Top row */}
+        <div className="fade-up hero-top-row" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 40, flexWrap: "wrap", position: "relative", zIndex: 1, marginBottom: 40 }}>
 
-          <h1
-            style={{
-              fontFamily: "'Syne', sans-serif",
-              fontWeight: 800,
-              fontSize: "clamp(2.5rem, 6vw, 4.2rem)",
-              lineHeight: 1.1,
-              marginBottom: 20,
-              letterSpacing: "-1.5px",
-            }}
-          >
-            Kendalikan Waktu,{" "}
-            <span
-              style={{
+          {/* KIRI */}
+          <div className="hero-left" style={{ flex: "1 1 480px", maxWidth: 620 }}>
+            <h1 className="hero-headline" style={{
+              fontFamily: "'Syne', sans-serif", fontWeight: 800,
+              fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+              lineHeight: 1.08, letterSpacing: "-2px",
+              marginBottom: 28, color: "var(--text)",
+            }}>
+              Satu platform.<br />
+              Semua produktivitas.<br />
+              <span style={{
                 background: "linear-gradient(135deg, var(--orange), var(--peach))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Capai Target
-            </span>
-            <br />Studimu.
-          </h1>
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+              }}>
+                Tanpa batas.
+              </span>
+            </h1>
 
-          <p
-            style={{
-              fontSize: "clamp(1rem, 2vw, 1.15rem)",
-              color: "var(--text2)",
-              maxWidth: 540,
-              margin: "0 auto 36px",
-              lineHeight: 1.7,
-            }}
-          >
-            SteadyRise adalah ruang kendali produktivitasmu — dari manajemen tugas, tracking target belajar, hingga insight bulanan yang memotivasi.
-          </p>
-
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Button onClick={onEnter} size="lg">
-              Mulai Gratis <ArrowRight size={18} />
-            </Button>
-            <Button
-              onClick={() => featRef.current?.scrollIntoView({ behavior: "smooth" })}
-              variant="ghost"
-              size="lg"
-            >
-              Lihat Fitur
-            </Button>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
+              <Button onClick={onEnter} size="lg">
+                Mulai Produktif <ArrowRight size={18} />
+              </Button>
+            </div>
           </div>
 
-          <div style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 52, flexWrap: "wrap" }}>
-            {[
-              { num: "8",        label: "Fitur Produktivitas"  },
-              { num: "100%",     label: "Gratis untuk Mahasiswa" },
-              { num: "Dark & Light", label: "Mode Tampilan"   },
-            ].map((s, i) => (
-              <div key={i} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "var(--accent)" }}>{s.num}</div>
-                <div style={{ fontSize: "0.78rem", color: "var(--text3)", marginTop: 2 }}>{s.label}</div>
-              </div>
-            ))}
+          {/* KANAN */}
+          <div className="hero-right" style={{ flex: "0 1 380px", display: "flex", flexDirection: "column", gap: 10, paddingTop: 8 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "var(--orange-mute)", border: "1px solid rgba(251,129,89,0.35)",
+              borderRadius: 99, padding: "6px 14px", fontSize: "0.75rem",
+              fontWeight: 700, color: "var(--orange)", width: "fit-content",
+            }}>
+              <Zap size={12} /> IFest WDC 2026
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 8 }}>
+              {[
+                "Kelola aktivitas belajar dengan lebih terstruktur",
+                "Sync otomatis dengan Google Calendar",
+                "Tersedia dalam 2 bahasa: Indonesia dan Inggris",
+                "Kustomisasi tampilan: tema, font, dan ukuran teks",
+              ].map((item, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 18, height: 18, borderRadius: 99,
+                    background: "var(--lime-mute)", border: "1px solid var(--accent)",
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  }}>
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4L3.5 6.5L9 1" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <span style={{ fontSize: "0.88rem", color: "var(--text2)" }}>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Theme Showcase — Scattered */}
+            <div style={{ position: "relative", height: 220, marginTop: 35 }}>
+              {[
+                { name: "Morning Mist", bg: "#F2E8DF", accent: "#415111", accent2: "#FB8159",
+                  style: { top: 0,   left: 0,   rotate: "-4deg",  zIndex: 6, width: "48%" } },
+                { name: "Lavender Sky", bg: "#EEE9F5", accent: "#7B5EA7", accent2: "#A8D4E6",
+                  style: { top: 0,   right: 0,  rotate: "3deg",   zIndex: 5, width: "48%" } },
+                { name: "Rose Petal",   bg: "#FAE8EC", accent: "#A0284A", accent2: "#D4909F",
+                  style: { top: 60,  left: "22%", rotate: "1deg", zIndex: 7, width: "54%" } },
+                { name: "Midnight",     bg: "#0D1B2A", accent: "#38BDF8", accent2: "#1E6FA3",
+                  style: { top: 160, left: "22%",  rotate: "-2deg",  zIndex: 4, width: "50%" } },
+                { name: "Blush Dusk",   bg: "#2A1F1A", accent: "#D4A574", accent2: "#8B5E4A",
+                  style: { bottom: 10, right: 10, rotate: "4deg", zIndex: 3, width: "48%" } },
+                { name: "Slate",        bg: "#1A1F2E", accent: "#94A3B8", accent2: "#475569",
+                  style: { top: 110, left: 0,    rotate: "2deg",   zIndex: 2, width: "46%" } },
+              ].map((t) => (
+                <div
+                  key={t.name}
+                  style={{
+                    position: "absolute",
+                    width: t.style.width,
+                    top: t.style.top,
+                    bottom: t.style.bottom,
+                    left: t.style.left,
+                    right: t.style.right,
+                    zIndex: t.style.zIndex,
+                    transform: `rotate(${t.style.rotate})`,
+                    borderRadius: 12,
+                    border: `1px solid ${t.bg === "#F2E8DF" || t.bg === "#EEE9F5" || t.bg === "#FAE8EC" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.1)"}`,
+                    background: t.bg,
+                    padding: "10px 12px",
+                    boxShadow: "0 6px 24px rgba(0,0,0,0.12)",
+                  }}
+                >
+                  <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                    <div style={{ display: "flex", gap: 5 }}>
+                      <div style={{ width: "55%", height: 6, borderRadius: 99, background: t.accent, opacity: 0.85 }} />
+                      <div style={{ width: "28%", height: 6, borderRadius: 99, background: t.accent2, opacity: 0.7 }} />
+                    </div>
+                    <div style={{ display: "flex", gap: 5 }}>
+                      <div style={{ width: "35%", height: 5, borderRadius: 99, background: t.accent, opacity: 0.35 }} />
+                      <div style={{ width: "45%", height: 5, borderRadius: 99, background: t.accent, opacity: 0.2 }} />
+                    </div>
+                    <div style={{ display: "flex", gap: 4, marginTop: 3 }}>
+                      <div style={{ flex: 1, height: 16, borderRadius: 6, background: t.accent, opacity: 0.12 }} />
+                      <div style={{ flex: 1, height: 16, borderRadius: 6, background: t.accent2, opacity: 0.18 }} />
+                      <div style={{ flex: 1, height: 16, borderRadius: 6, background: t.accent, opacity: 0.08 }} />
+                    </div>
+                  </div>
+                  <div style={{ marginTop: 7, fontSize: "0.62rem", fontWeight: 700, color: t.accent }}>
+                    {t.name}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* App Mockup */}
+        <div className="float-anim hero-mockup" style={{
+          background: "var(--bg)", borderRadius: 16,
+          padding: "16px", border: "1px solid var(--border),", marginTop: 50,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--orange)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--peach)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--lime)" }} />
+            <div style={{ flex: 1, height: 6, background: "var(--surface2)", borderRadius: 99, marginLeft: 4 }} />
+          </div>
+          <div style={{ lineHeight: 0 }}>
+            <img src="/images/mockup-hero.png" alt="SteadyRise App" style={{ width: "100%", display: "block", borderRadius: 8 }} />
           </div>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section ref={featRef} style={{ padding: "80px 5%", maxWidth: 1100, margin: "0 auto" }}>
+      {/* ── FEATURES ── */}
+      <section ref={featRef} style={{ padding: "30px 5%", maxWidth: 1100, margin: "0 auto" }}>
         <div className="section-reveal" style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2
-            style={{
-              fontFamily: "'Syne',sans-serif",
-              fontWeight: 800,
-              fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
-              letterSpacing: "-0.5px",
-              marginBottom: 12,
-            }}
-          >
+          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.6rem)", letterSpacing: "-0.5px", marginBottom: 12 }}>
             Semua yang kamu butuhkan,<br />dalam satu tempat.
           </h2>
           <p style={{ color: "var(--text2)", fontSize: "1rem", maxWidth: 480, margin: "0 auto" }}>
@@ -241,89 +356,137 @@ export default function Landing({ onEnter }) {
         </div>
 
         <div
-          className="section-reveal"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: 16,
-          }}
+          className="section-reveal feature-grid"
+          style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 0, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 24, overflow: "hidden", boxShadow: "var(--shadow-lg)" }}
         >
-          {FEATURES.map((f, i) => (
-            <FeatureCard key={i} {...f} />
-          ))}
+          {/* Tab list kiri */}
+          <div
+            className="feature-tabs"
+            style={{ borderRight: "1px solid var(--border)", padding: "8px" }}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {FEATURES.map((f, i) => (
+              <FeatureTab
+                key={f.id}
+                f={f}
+                active={activeFeature === i}
+                onClick={() => setActiveFeature(i)}
+              />
+            ))}
+          </div>
+
+          {/* Preview kanan */}
+          <div className="feature-preview" style={{ padding: "32px 28px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div className="fade-in" key={activeFeature}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                background: "var(--lime-mute)", border: "1px solid var(--border)",
+                borderRadius: 99, padding: "4px 12px", marginBottom: 14,
+                fontSize: "0.72rem", fontWeight: 600, color: "var(--accent)",
+              }}>
+                {FEATURES[activeFeature].tag}
+              </div>
+              <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.3rem", color: "var(--text)", marginBottom: 10, letterSpacing: "-0.3px" }}>
+                {FEATURES[activeFeature].title}
+              </h3>
+              <p style={{ fontSize: "0.88rem", color: "var(--text2)", lineHeight: 1.7, marginBottom: 24 }}>
+                {FEATURES[activeFeature].desc}
+              </p>
+
+              <div style={{ background: "var(--bg)", borderRadius: 16, padding: "16px", border: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--orange)" }} />
+                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--peach)" }} />
+                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--lime)" }} />
+                  <div style={{ flex: 1, height: 6, background: "var(--surface2)", borderRadius: 99, marginLeft: 4 }} />
+                </div>
+                {FEATURES[activeFeature].preview}
+              </div>
+
+              <button
+                onClick={onEnter}
+                style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", color: "var(--accent)", fontWeight: 700, fontSize: "0.88rem", cursor: "pointer", padding: 0, fontFamily: "'Outfit',sans-serif" }}
+              >
+                Coba fitur ini <ArrowRight size={15} />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* CTA BANNER */}
+      {/* ── CTA BANNER ── */}
       <section
+        ref={ctaRef}
         className="section-reveal"
         style={{ padding: "0 5% 100px", maxWidth: 1100, margin: "0 auto" }}
       >
         <div
           className="landing-cta-banner"
           style={{
-            background: isDark
-              ? "linear-gradient(135deg, #263510 0%, #1a2608 100%)"
-              : "linear-gradient(135deg, #415111 0%, #2e3a16 100%)",
-            borderRadius: 24,
-            padding: "56px 48px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 28,
-            position: "relative",
-            overflow: "hidden",
+            background: "linear-gradient(135deg, #415111 0%, #2e3a16 100%)",
+            borderRadius: 24, padding: "56px 48px",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            flexWrap: "wrap", gap: 28,
+            position: "relative", overflow: "hidden",
           }}
         >
           <div style={{ position: "absolute", right: 40, bottom: -20, opacity: 0.07 }}>
             <Zap size={180} />
           </div>
           <div>
-            <h3
-              style={{
-                fontFamily: "'Syne',sans-serif",
-                fontWeight: 800,
-                fontSize: "1.8rem",
-                color: "#D2E186",
-                marginBottom: 8,
-              }}
-            >
+            <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.8rem", color: "#D2E186", marginBottom: 8 }}>
               Siap jadi lebih produktif?
             </h3>
             <p style={{ color: "rgba(252,191,147,0.8)", fontSize: "0.95rem" }}>
               Bergabung sekarang dan mulai kendalikan waktu belajarmu.
             </p>
           </div>
-          <Button
-            onClick={onEnter}
-            size="lg"
-            style={{ background: "#D2E186", color: "#415111", flexShrink: 0 }}
-          >
+          <Button onClick={onEnter} size="lg" style={{ background: "#D2E186", color: "#415111", flexShrink: 0 }}>
             Mulai Sekarang <ArrowRight size={18} />
           </Button>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer
-        style={{
-          borderTop: "1px solid var(--border)",
-          padding: "24px 5%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 12,
-          color: "var(--text3)",
-          fontSize: "0.8rem",
-        }}
-      >
+      {/* ── FOOTER ── */}
+      <footer style={{
+        borderTop: "1px solid var(--border)", padding: "24px 5%",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        flexWrap: "wrap", gap: 12, color: "var(--text3)", fontSize: "0.8rem",
+      }}>
         <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, color: "var(--accent)" }}>
           SteadyRise
         </span>
         <span>IFest WDC 2026 — Empowering Students Through Innovative Productivity Tools</span>
       </footer>
+
+      {/* ── SCROLL INDICATOR ── */}
+      <div className="scroll-indicator" style={{
+        position: "fixed", right: 24, top: "50%",
+        transform: "translateY(-50%)", zIndex: 90,
+        display: "flex", flexDirection: "column", gap: 8,
+      }}>
+        {[
+          { label: "Hero",  ref: heroRef },
+          { label: "Fitur", ref: featRef },
+          { label: "CTA",   ref: ctaRef  },
+        ].map((s, i) => (
+          <button
+            key={i}
+            onClick={() => s.ref.current?.scrollIntoView({ behavior: "smooth" })}
+            title={s.label}
+            style={{
+              width: activeSection === i ? 8 : 6,
+              height: activeSection === i ? 24 : 6,
+              borderRadius: 99, border: "none",
+              background: activeSection === i ? "var(--accent)" : "var(--border)",
+              cursor: "pointer", padding: 0,
+              transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+            }}
+          />
+        ))}
+      </div>
+
     </div>
   );
 }
