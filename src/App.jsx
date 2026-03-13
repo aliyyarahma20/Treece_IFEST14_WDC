@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { useLocalStorage } from "./hooks/useLocalStorage.js";
 import GlobalStyle from "./components/GlobalStyle.jsx";
@@ -16,6 +17,7 @@ import RecapPage    from "./pages/RecapPage.jsx";
 import NotesPage    from "./pages/NotesPage.jsx";
 import PomodoroPage from "./pages/PomodoroPage.jsx";
 import HabitPage    from "./pages/HabitPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 const INITIAL_TASKS = [
   { id: 1, name: "Kerjakan laporan Pemweb",       priority: "high",   deadline: "2026-03-12", category: "tugas",  done: false, createdAt: "2026-03-09T00:00:00Z" },
@@ -56,6 +58,7 @@ function AppContent() {
     notes:     <NotesPage    />,
     pomodoro:  <PomodoroPage />,
     habit:     <HabitPage    />,
+    settings:  <SettingsPage />,
   };
 
   return (
@@ -103,10 +106,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <ToastProvider>
-        <AppContent />
-      </ToastProvider>
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }

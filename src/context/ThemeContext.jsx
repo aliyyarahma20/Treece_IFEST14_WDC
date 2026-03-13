@@ -1,20 +1,26 @@
 import { createContext, useContext, useEffect } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
+export const THEMES = [
+  "morning-mist",
+  "lavender-sky",
+  "rose-petal",
+  "midnight",
+  "blush-dusk",
+  "slate",
+];
+
 const ThemeCtx = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useLocalStorage("sr_theme", "light");
-
-  const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+  const [theme, setTheme] = useLocalStorage("sr_theme", "morning-mist");
 
   useEffect(() => {
-    document.body.classList.toggle("dark", theme === "dark");
-    document.body.classList.toggle("light", theme === "light");
+    document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
-    <ThemeCtx.Provider value={{ theme, toggle }}>
+    <ThemeCtx.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeCtx.Provider>
   );

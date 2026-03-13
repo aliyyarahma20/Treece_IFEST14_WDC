@@ -1,10 +1,9 @@
-import { X, LogOut } from "lucide-react";
+import { X, LogOut, Settings } from "lucide-react";
 import {
   LayoutDashboard, CheckSquare, Target, Bell,
   BarChart2, BookOpen, Timer, Activity,
 } from "lucide-react";
 import { Divider } from "../ui/index.jsx";
-import ThemeToggle from "../ThemeToggle.jsx";
 
 export const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard",        icon: LayoutDashboard },
@@ -14,6 +13,7 @@ export const NAV_ITEMS = [
   { id: "notes",     label: "Catatan Belajar",  icon: BookOpen        },
   { id: "pomodoro",  label: "Pomodoro Timer",   icon: Timer           },
   { id: "habit",     label: "Habit Tracker",    icon: Activity        },
+  { id: "settings",  label: "Settings",         icon: Settings        },
 ];
 
 
@@ -73,7 +73,7 @@ export default function Sidebar({ activePage, setPage, open, onClose, user, onLo
               color: "var(--accent)",
             }}
           >
-            Steady<span style={{ color: "var(--orange)" }}>Rise</span>
+            Steady<span style={{ color: "var(--logo-sub)" }}>Rise</span>
           </span>
           <button
             className="show-mobile"
@@ -113,7 +113,7 @@ export default function Sidebar({ activePage, setPage, open, onClose, user, onLo
                 style={{
                   width: "100%",
                   padding: "9px 12px",
-                  background: active ? "var(--lime-mute)" : "transparent",
+                  background: active ? "var(--mute)" : "transparent",
                   border: `1px solid ${active ? "var(--border)" : "transparent"}`,
                   borderRadius: 10,
                   cursor: "pointer",
@@ -162,7 +162,7 @@ export default function Sidebar({ activePage, setPage, open, onClose, user, onLo
           <div style={{
             width: 32, height: 32,
             borderRadius: 10,
-            background: "linear-gradient(135deg, var(--forest, #415111), var(--accent))",
+            background: "linear-gradient(135deg, var(--accent2), var(--accent))",
             display: "flex", alignItems: "center", justifyContent: "center",
             color: "var(--bg)", fontWeight: 700, fontSize: "0.85rem", flexShrink: 0,
           }}>
@@ -189,7 +189,7 @@ export default function Sidebar({ activePage, setPage, open, onClose, user, onLo
             <button
               onClick={onLogout}
               data-tip="Keluar"
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--orange)")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--highlight)")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text3)")}
               style={{
                 background: "none",
@@ -203,19 +203,6 @@ export default function Sidebar({ activePage, setPage, open, onClose, user, onLo
             >
               <LogOut size={14} />
             </button>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: 10,
-              padding: "0 2px",
-            }}
-          >
-            <span style={{ fontSize: "0.75rem", color: "var(--text3)" }}>Tema</span>
-            <ThemeToggle />
           </div>
         </div>
       </aside>
