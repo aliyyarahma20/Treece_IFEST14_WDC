@@ -140,6 +140,44 @@ export const translations = {
       tagline: "Innovative Productivity Tools for a Better You",
     },
 
+    // Target
+    target: {
+      title: "Productivity Targets",
+      addTarget: "New Target",
+      targetName: "Target name",
+      subject: "Subject",
+      currentVal: "Current",
+      goalVal: "Goal",
+      unit: "Unit",
+      deadline: "Deadline",
+      progress: "Progress",
+      noTargets: "No targets set yet.",
+      noTargetDesc: "Start setting your first target and achieve it with Pomodoro!",
+      firstTarget: "Create First Target",
+      typeHours: "Study Hours",
+      typeTasks: "Tasks Done",
+      typeDays: "Productive Days",
+      formTitle: "New Target",
+      formType: "Type",
+      formInitial: "Initial Progress",
+      tabTarget: "Target",
+      tabPomodoro: "Focus Now",
+      achieved: "Achieved!",
+      onTrack: "On Track",
+      needCatchUp: "Need to Catch Up",
+      almostThere: (n) => `Almost there! ${n} more to go 🔥`,
+      halfWay: "Halfway there, keep going! 💪",
+      justStarted: "Just started, let's go! 🚀",
+      focusNow: "Focus now",
+      workingOn: "What are you working on?",
+      sessionsDone: "Sessions Done",
+      focusMinutes: "Focus Minutes",
+      subtitleDone: (done, total) => `${done} of ${total} targets achieved`,
+      namePlaceholder: "e.g. Study 3 hours a day...",
+      focusNowBtn: "Focus now",
+      workingPlaceholder: "e.g. Chapter 3 Web Programming...",
+    },
+
     // ── Dashboard ──
     dashboard: {
       greeting: "Good morning",
@@ -174,19 +212,6 @@ export const translations = {
       deleteConfirm: "Delete this task?",
     },
 
-    // ── Target ──
-    target: {
-      title: "Targets",
-      addTarget: "Add Target",
-      targetName: "Target name",
-      subject: "Subject",
-      currentVal: "Current",
-      goalVal: "Goal",
-      unit: "Unit",
-      deadline: "Deadline",
-      progress: "Progress",
-      noTargets: "No targets set yet.",
-    },
 
     // ── Recap ──
     recap: {
@@ -381,6 +406,44 @@ export const translations = {
         tagline: "Inovasi Produktivitas untuk Versi Terbaikmu",
     },
 
+    // Target
+    target: {
+      title: "Target Produktivitas",
+      addTarget: "Target Baru",
+      targetName: "Nama target",
+      subject: "Mata Kuliah",
+      currentVal: "Saat Ini",
+      goalVal: "Target",
+      unit: "Satuan",
+      deadline: "Deadline",
+      progress: "Progress",
+      noTargets: "Belum ada target yang dibuat.",
+      noTargetDesc: "Mulai set target pertamamu dan raih bersama Pomodoro!",
+      firstTarget: "Buat Target Pertama",
+      typeHours: "Jam Belajar",
+      typeTasks: "Tugas Selesai",
+      typeDays: "Hari Produktif",
+      formTitle: "Target Baru",
+      formType: "Tipe",
+      formInitial: "Progress Awal",
+      tabTarget: "Target",
+      tabPomodoro: "Fokus Sekarang",
+      achieved: "Tercapai!",
+      onTrack: "On Track",
+      needCatchUp: "Perlu Dikejar",
+      almostThere: (n) => `Hampir sampai! Tinggal ${n} lagi 🔥`,
+      halfWay: "Setengah jalan, tetap semangat! 💪",
+      justStarted: "Baru mulai, yuk gas! 🚀",
+      focusNow: "Fokus sekarang",
+      workingOn: "Sedang mengerjakan apa?",
+      sessionsDone: "Sesi Selesai",
+      focusMinutes: "Menit Fokus",
+      subtitleDone: (done, total) => `${done} dari ${total} target tercapai`,
+      namePlaceholder: "cth: Belajar 3 jam sehari...",
+      focusNowBtn: "Fokus sekarang",
+      workingPlaceholder: "cth: Bab 3 Pemrograman Web...",
+    },
+
     dashboard: {
       greeting: "Selamat pagi",
       greetingAfternoon: "Selamat siang",
@@ -413,18 +476,6 @@ export const translations = {
       deleteConfirm: "Hapus tugas ini?",
     },
 
-    target: {
-      title: "Target",
-      addTarget: "Tambah Target",
-      targetName: "Nama target",
-      subject: "Mata Kuliah",
-      currentVal: "Saat Ini",
-      goalVal: "Target",
-      unit: "Satuan",
-      deadline: "Deadline",
-      progress: "Progress",
-      noTargets: "Belum ada target yang dibuat.",
-    },
 
     recap: {
       title: "Monthly Recap",
