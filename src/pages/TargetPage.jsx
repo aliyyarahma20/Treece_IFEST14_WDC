@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Clock, CheckSquare, Calendar, Brain, Timer } from "lucide-react";
+import { Plus, Trash2, Clock, CheckSquare, Calendar, Brain, Timer, Target as TargetIcon } from "lucide-react";
 import { useToast } from "../context/ToastContext.jsx";
 import { useLocalStorage } from "../hooks/useLocalStorage.js";
 import Button from "../components/ui/Button.jsx";
@@ -68,12 +68,20 @@ export default function TargetPage() {
     return () => clearInterval(id);
   }, [running, mode]);
 
-  const QUOTES = [
+  const QUOTES_FOCUS = [
     "Fokus 25 menit, hasil seumur hidup. 💪",
     "Satu sesi lagi, semakin dekat ke tujuan. 🎯",
     "Matikan distraksi, nyalakan potensi. 🔥",
     "Mahasiswa hebat lahir dari kebiasaan kecil. ⚡",
     "Deep work beats busy work. 🧠",
+  ];
+
+  const QUOTES_REST = [
+    "Istirahat sebentar, otak makin tajam. ☕",
+    "Regangkan badan, siapkan pikiran. 🧘",
+    "Napas dalam, kamu sudah kerja keras! 🌿",
+    "Hydrate dulu, baru gas lagi. 💧",
+    "5 menit ini investasi untuk sesi berikutnya. ✨",
   ];
   const [quoteIdx, setQuoteIdx] = useState(0);
 
@@ -122,9 +130,9 @@ export default function TargetPage() {
 
       {/* Tab Switch */}
       <div style={{ display: "flex", gap: 4, marginBottom: 24, background: "var(--surface)", padding: 4, borderRadius: 12, border: "1px solid var(--border)", maxWidth: 320 }}>
-        {[
-          { k: "target",   l: "🎯 Target"  },
-          { k: "pomodoro", l: "⏱️ Fokus Sekarang" },
+      {[
+          { k: "target",   l: "Target",        icon: <TargetIcon size={15} /> },
+          { k: "pomodoro", l: "Fokus Sekarang", icon: <Timer size={15} />      },
         ].map((tab) => (
           <button
             key={tab.k}
@@ -137,9 +145,10 @@ export default function TargetPage() {
               fontSize: "0.85rem",
               fontWeight: activeTab === tab.k ? 600 : 400,
               cursor: "pointer", transition: "all 0.2s",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
             }}
           >
-            {tab.l}
+            {tab.icon} {tab.l}
           </button>
         ))}
       </div>
@@ -224,7 +233,7 @@ export default function TargetPage() {
                       {pct}%
                     </span>
                   </div>
-                  <ProgressBar value={t.current} max={t.goal} color={done ? "var(--accent)" : onTrack ? "var(--peach)" : "var(--orange)"} height={10} />
+                  <ProgressBar value={t.current} max={t.goal} color={done ? "var(--highlight)" : onTrack ? "var(--highlight)" : "var(--highlight2)"} height={10} />
                   <div style={{ fontSize: "0.72rem", color: "var(--text3)", marginTop: 6, textAlign: "right" }}>
                     {done
                       ? "Luar biasa! Kamu berhasil 🏆"
@@ -241,15 +250,22 @@ export default function TargetPage() {
                         padding: "4px 10px", borderRadius: 99,
                         background: "var(--lime-mute)",
                         border: "1px solid var(--lime)",
-                        color: "var(--accent)",
+                        color: "var(--highlight)",
                         fontSize: "0.75rem", fontWeight: 700,
                       }}>
-                        🎉 Target Tercapai!
+                        🎉 Tercapai!
                       </div>
                     ) : (
-                      <Badge color={onTrack ? "lime" : "orange"}>
-                        {onTrack ? "✅ On Track" : "⚠️ Perlu Dikejar"}
-                      </Badge>
+                    <div style={{
+                      padding: "3px 10px", borderRadius: 99,
+                      fontSize: "0.72rem", fontWeight: 600,
+                      background: onTrack ? "var(--lime-mute)" : "var(--orange-mute)",
+                      color: onTrack ? "var(--highlight2)" : "var(--highlight)",
+                      border: `1px solid ${onTrack ? "var(--highlight2)" : "var(--highlight)"}`,
+                      whiteSpace: "nowrap",
+                    }}>
+                      {onTrack ? "On Track" : "Perlu Dikejar"}
+                    </div>
                     )}
                     <div style={{ flex: 1 }} />
                     <button onClick={() => updateProgress(t.id, -1)}
@@ -323,11 +339,11 @@ export default function TargetPage() {
             fontStyle: "italic",
             marginBottom: 20,
             padding: "10px 20px",
-            background: "var(--lime-mute)",
+            background: mode === "focus" ? "var(--accent)" : "var(--accent2)",
             borderRadius: 10,
             border: "1px solid var(--border)",
           }}>
-            {QUOTES[quoteIdx]}
+            {mode === "focus" ? QUOTES_FOCUS[quoteIdx] : QUOTES_REST[quoteIdx]}
           </div>
         )}
 

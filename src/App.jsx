@@ -15,8 +15,6 @@ import TodoPage     from "./pages/TodoPage.jsx";
 import TargetPage   from "./pages/TargetPage.jsx";
 import RecapPage    from "./pages/RecapPage.jsx";
 import NotesPage    from "./pages/NotesPage.jsx";
-import PomodoroPage from "./pages/PomodoroPage.jsx";
-import HabitPage    from "./pages/HabitPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 
 const INITIAL_TASKS = [
@@ -56,8 +54,6 @@ function AppContent() {
     target:    <TargetPage   />,
     recap:     <RecapPage    />,
     notes:     <NotesPage    />,
-    pomodoro:  <PomodoroPage />,
-    habit:     <HabitPage    />,
     settings:  <SettingsPage />,
   };
 

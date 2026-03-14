@@ -11,8 +11,6 @@ export const NAV_ITEMS = [
   { id: "target",    label: "Target",           icon: Target          },
   { id: "recap",     label: "Monthly Recap",    icon: BarChart2       },
   { id: "notes",     label: "Catatan Belajar",  icon: BookOpen        },
-  { id: "pomodoro",  label: "Pomodoro Timer",   icon: Timer           },
-  { id: "habit",     label: "Habit Tracker",    icon: Activity        },
   { id: "settings",  label: "Settings",         icon: Settings        },
 ];
 
