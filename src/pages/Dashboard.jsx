@@ -1,6 +1,8 @@
 import { CheckCircle2, Circle, Clock, Flame, AlertCircle } from "lucide-react";
 import { Card, ProgressBar } from "../components/ui/index.jsx";
 import { MONTHS, WEEKDAYS } from "../utils/helpers.js";
+import { useWrappedVisibility } from "../utils/wrappedVisibility.js";
+import WrappedSwipeCards from "../components/ui/wrapped.jsx";
 
 function StatCard({ label, value, sub, icon, accent, delay = 0 }) {
   return (
@@ -26,6 +28,25 @@ export default function Dashboard({ tasks }) {
   const today = new Date();
   const done  = tasks.filter((t) => t.done).length;
   const high  = tasks.filter((t) => t.priority === "high" && !t.done).length;
+  const { isVisible, prevMonth, prevYear, monthLabel } = useWrappedVisibility();
+
+  const wrappedData = {
+    monthLabel,
+    stats: {
+      tasksDone:  { value: 84,   delta: "↑ 12 dari bulan lalu" },
+      focusTime:  { value: 42,   unit: "hrs",  delta: "↑ 6hrs" },
+      notes:      { value: 31,   unit: "baru", delta: "+7 minggu ini" },
+      bestStreak: { value: 18,   unit: "hari", delta: "Personal best!" },
+    },
+    categories: [
+      { label: "Work",     pct: 48, color: "#fb8159" },
+      { label: "Learning", pct: 30, color: "#1D9E75" },
+      { label: "Personal", pct: 22, color: "rgba(255,255,255,0.2)" },
+    ],
+    streakDays: [1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0],
+    topTags: ["Design", "Deep work"],
+    allTags: ["Reading", "Meetings", "Planning"]
+  };
 
   const weekActivity = [
     { d: "Sen", h: 2.5 }, { d: "Sel", h: 4 }, { d: "Rab", h: 6 },
@@ -48,6 +69,21 @@ export default function Dashboard({ tasks }) {
           {WEEKDAYS[today.getDay()]}, {today.getDate()} {MONTHS[today.getMonth()]} {today.getFullYear()}
         </div>
       </div>
+
+      {/* ── Wrapped — muncul 3 hari pertama tiap bulan ── */}
+      {isVisible && (
+        <div style={{
+          marginBottom: 28,
+          display: "flex",
+          justifyContent: "center",   // kartu 300px centered di dashboard
+        }}>
+          <WrappedSwipeCards
+            month={prevMonth}
+            year={prevYear}
+            data={wrappedData}
+          />
+        </div>
+      )}
 
       {/* Stat Cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 14, marginBottom: 24 }}>
