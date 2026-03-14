@@ -33,6 +33,10 @@ const GlobalStyle = () => (
     --shadow-lg:   0 8px 40px rgba(65,81,17,0.12);
     --is-dark:     0;
     --logo-sub: #FB8159;
+    --hero-bg: linear-gradient(135deg, #415111 0%, #2e3a16 60%, #1a2608 100%);
+    --hero-text: #D2E186;
+    --hero-sub: rgba(210,225,134,0.75);
+    --hero-label: rgba(252,191,147,0.85);
   }
 
   /* ── LAVENDER SKY ── */
@@ -57,6 +61,10 @@ const GlobalStyle = () => (
     --shadow-lg:   0 8px 40px rgba(93,93,90,0.12);
     --is-dark:     0;
     --logo-sub: #CDEBF1;
+    --hero-bg: linear-gradient(135deg, #3a3a60 0%, #25254a 60%, #141428 100%);
+    --hero-text: #CDEBF1;
+    --hero-sub: rgba(205,235,241,0.75);
+    --hero-label: rgba(203,206,234,0.85);
   }
 
   /* ── ROSE PETAL ── */
@@ -81,6 +89,11 @@ const GlobalStyle = () => (
     --shadow-lg:   0 8px 40px rgba(125,28,53,0.12);
     --is-dark:     0;
     --logo-sub: #C4727E;
+    --hero-bg: linear-gradient(135deg, #7D1C35 0%, #561428 60%, #2e0a16 100%);
+    --hero-text: #F7C5D5;
+    --hero-sub: rgba(247,197,213,0.75);
+    --hero-label: rgba(196,114,126,0.85);
+
   }
 
   /* ── MIDNIGHT ── */
@@ -105,6 +118,10 @@ const GlobalStyle = () => (
     --shadow-lg:   0 8px 40px rgba(0,0,0,0.4);
     --is-dark:     1;
     --logo-sub: #E8EDF2;
+    --hero-bg: linear-gradient(135deg, #1C3448 0%, #132436 60%, #0a1520 100%);
+    --hero-text: #4A9EBF;
+    --hero-sub: rgba(74,158,191,0.75);
+    --hero-label: rgba(232,237,242,0.7);
   }
 
   /* ── BLUSH DUSK ── */
@@ -129,6 +146,10 @@ const GlobalStyle = () => (
     --shadow-lg:   0 8px 40px rgba(0,0,0,0.4);
     --is-dark:     1;
     --logo-sub: #FFECCD;
+    --hero-bg: linear-gradient(135deg, #4A3F3A 0%, #363230 60%, #1e1b19 100%);
+    --hero-text: #C4956A;
+    --hero-sub: rgba(196,149,106,0.75);
+    --hero-label: rgba(255,236,205,0.7);
   }
 
   /* ── SLATE ── */
@@ -153,6 +174,10 @@ const GlobalStyle = () => (
     --shadow-lg:   0 8px 40px rgba(0,0,0,0.4);
     --is-dark:     1;
     --logo-sub: #E8EAEB;
+    --hero-bg: linear-gradient(135deg, #4A4A4A 0%, #383838 60%, #202020 100%);
+    --hero-text: #8FAEC2;
+    --hero-sub: rgba(143,174,194,0.75);
+    --hero-label: rgba(232,234,235,0.7);
   }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -440,7 +465,7 @@ const GlobalStyle = () => (
       .hero-mockup {
         margin-top: 24px;
       }
-    } 
+    }
 
 
     /* ── GENERAL SMALL SCREEN FIXES ── */
@@ -453,7 +478,7 @@ const GlobalStyle = () => (
     @media (max-width: 768px) {
       main {
         margin-left: 0 !important;
-        padding: 64px 16px 80px !important; /* 64px topbar, 80px bottom nav */
+        padding: 64px 16px 96px !important; /* 64px topbar, 80px bottom nav */
       }
     }
   `}</style>

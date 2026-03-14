@@ -58,7 +58,7 @@ export default function TargetPage() {
           setRunning(false);
           if (mode === "focus") {
             setSessions((p) => p + 1);
-            setQuoteIdx((p) => (p + 1) % QUOTES.length); // ← tambahkan ini
+            setQuoteIdx((p) => (p + 1) % QUOTES_FOCUS.length);
             toast("Sesi fokus selesai! Saatnya istirahat.");
           } else {
             toast("Istirahat selesai! Siap kembali fokus?");
@@ -158,7 +158,7 @@ export default function TargetPage() {
         <>
           {showForm && (
             <Card className="scale-in" style={{ marginBottom: 20, border: "1.5px solid var(--accent)" }}>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, marginBottom: 16 }}>{t.target.formTitle}</div>
+              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, marginBottom: 16, color:"var(--sub)" }}>{t.target.formTitle}</div>
               <div style={{ display: "grid", gap: 12 }}>
                 <Input
                   label={t.target.targetName}
