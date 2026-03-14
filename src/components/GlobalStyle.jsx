@@ -178,6 +178,21 @@ const GlobalStyle = () => (
       from { width: 0%; }
     }
 
+    @keyframes breathe {
+      0%, 100% { transform: scale(1);    opacity: 0.6; }
+      50%       { transform: scale(1.08); opacity: 1;   }
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .float-anim { animation: floatY 4s ease-in-out infinite; }
+
+    .breathe { animation: breathe 4s ease-in-out infinite; }
+
+
     .fade-up   { animation: fadeUp  0.45s ease forwards; }
     .fade-in   { animation: fadeIn  0.3s  ease forwards; }
     .scale-in  { animation: scaleIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
@@ -313,6 +328,69 @@ const GlobalStyle = () => (
         gap: 4px !important;
       }
     }
+
+    /* ── NAVBAR RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .navbar-cta span {
+        display: none;
+      }
+      .navbar-cta {
+        padding: 8px 14px !important;
+        font-size: 0.8rem !important;
+        min-width: unset !important;
+      }
+    }
+
+    /* ── HERO RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-top-row {
+        flex-direction: column !important;
+        gap: 24px !important;
+      }
+      .hero-left {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+      }
+      .hero-right {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+      }
+      .hero-headline {
+        font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
+        letter-spacing: -1px !important;
+      }
+    }
+
+    /* ── LANDING FEATURE TABS ── */
+    @media (max-width: 768px) {
+      .feature-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .feature-tabs {
+        border-right: none !important;
+        border-bottom: 1px solid var(--border);
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto;
+        padding: 8px !important;
+        gap: 6px;
+      }
+      .feature-tabs button {
+        flex-shrink: 0;
+        width: auto !important;
+        padding: 8px 12px !important;
+      }
+      .feature-preview {
+        padding: 20px 16px !important;
+      }
+      .scroll-indicator {
+        display: none !important;
+      }
+      .hero-mockup {
+        margin-top: 24px;
+      }
+    } 
+
 
     /* ── GENERAL SMALL SCREEN FIXES ── */
     @media (max-width: 480px) {
