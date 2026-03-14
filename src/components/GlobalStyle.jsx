@@ -232,8 +232,22 @@ const GlobalStyle = () => (
       font-size: 0.72rem; font-weight: 500; white-space: nowrap;
       pointer-events: none; opacity: 0;
       transition: all 0.2s; transform-origin: bottom center;
+      z-index: 9999;
     }
     [data-tip]:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
+
+    /* Sidebar tooltip — muncul ke kanan */
+    aside [data-tip]::after {
+      bottom: auto;
+      left: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%) scale(0.85);
+      transform-origin: left center;
+    }
+    aside [data-tip]:hover::after {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
 
     .custom-check {
       appearance: none; -webkit-appearance: none;
@@ -396,6 +410,13 @@ const GlobalStyle = () => (
     @media (max-width: 480px) {
       .stat-grid {
         grid-template-columns: 1fr 1fr !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      main {
+        margin-left: 0 !important;
+        padding: 64px 16px 80px !important; /* 64px topbar, 80px bottom nav */
       }
     }
   `}</style>

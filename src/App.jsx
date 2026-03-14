@@ -30,8 +30,8 @@ function AppContent() {
   const [tasks,     setTasks]     = useLocalStorage("sr_tasks", INITIAL_TASKS);
   const [view,      setView]      = useState("landing");
   const [page,      setPage]      = useState("dashboard");
-  const [sideOpen,  setSideOpen]  = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleEnter = () => {
     if (user) { setView("app"); }
@@ -68,15 +68,15 @@ function AppContent() {
           <Sidebar
             activePage={page}
             setPage={setPage}
-            open={sideOpen}
-            onClose={() => setSideOpen(false)}
+            collapsed={sidebarCollapsed}
+            setCollapsed={setSidebarCollapsed}
             user={user}
             onLogout={handleLogout}
           />
-          <Topbar page={page} onMenuClick={() => setSideOpen(true)} />
+          <Topbar page={page}/>
           <main
             style={{
-              marginLeft: 220,
+              marginLeft: sidebarCollapsed ? 64 : 220,
               padding: "28px 32px",
               minHeight: "100vh",
             }}
