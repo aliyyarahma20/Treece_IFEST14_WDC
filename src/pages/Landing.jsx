@@ -235,7 +235,9 @@ export default function Landing({ onEnter }) {
               lineHeight: 1.08, letterSpacing: "-2px",
               marginBottom: 28, color: "var(--text)",
             }}>
-              {t.landing.headline1}<br />
+              {t.landing.headline1.split(" ").map((word, i) => (
+                <span key={i} style={{ display: "block" }}>{word}</span>
+              ))}
               {t.landing.headline2}<br />
               <span style={{
                 background: "linear-gradient(135deg, var(--highlight), var(--highlight2))",

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getSession, createSession, clearSession, saveLastPage } from "./utils/session.js";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { LanguageProvider } from "./context/LanguageContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
@@ -28,10 +29,21 @@ const INITIAL_TASKS = [
 function AppContent() {
   const [user,      setUser]      = useLocalStorage("sr_user",  null);
   const [tasks,     setTasks]     = useLocalStorage("sr_tasks", INITIAL_TASKS);
-  const [view,      setView]      = useState("landing");
-  const [page,      setPage]      = useState("dashboard");
   const [showLogin, setShowLogin] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const session = getSession();
+  const [view, setView] = useState(session ? "app" : "landing");
+  const [page, setPage] = useState(session?.lastPage || "dashboard");
+
+  useEffect(() => {
+    if (!session) {
+      document.body.setAttribute("data-theme", "morning-mist");
+    } else {
+      const savedTheme = localStorage.getItem("sr_theme") || "morning-mist";
+      document.body.setAttribute("data-theme", savedTheme);
+    }
+  }, []);
 
   const handleEnter = () => {
     if (user) { setView("app"); }
@@ -40,12 +52,26 @@ function AppContent() {
 
   const handleLogin = (u) => {
     setUser(u);
+    createSession();
+    document.body.setAttribute("data-theme", "morning-mist");
+    localStorage.setItem("sr_theme", "morning-mist");
+    setPage("dashboard");
+    saveLastPage("dashboard");
+    setShowLogin(false);
     setView("app");
   };
 
   const handleLogout = () => {
+    clearSession();
     setUser(null);
+    document.body.setAttribute("data-theme", "morning-mist");
     setView("landing");
+    setPage("dashboard");
+  };
+
+  const navigateTo = (p) => {
+    setPage(p);
+    saveLastPage(p);
   };
 
   const PAGE_MAP = {
@@ -67,7 +93,7 @@ function AppContent() {
         <div style={{ background: "var(--bg)", minHeight: "100vh" }}>
           <Sidebar
             activePage={page}
-            setPage={setPage}
+            setPage={navigateTo}
             collapsed={sidebarCollapsed}
             setCollapsed={setSidebarCollapsed}
             user={user}
