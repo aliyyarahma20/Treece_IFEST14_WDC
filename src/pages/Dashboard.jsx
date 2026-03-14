@@ -88,8 +88,8 @@ export default function Dashboard({ tasks }) {
       {/* Stat Cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 14, marginBottom: 24 }}>
         <StatCard label="Tugas Selesai"   value={done}    sub={`dari ${tasks.length} total`}          icon={<CheckCircle2 size={20}/>} accent="var(--accent)" delay={0}  />
-        <StatCard label="Prioritas Tinggi" value={high}   sub="perlu segera dikerjakan"               icon={<AlertCircle  size={20}/>} accent="var(--orange)" delay={80} />
-        <StatCard label="Streak"           value="5"      sub="hari berturut-turut"                   icon={<Flame        size={20}/>} accent="var(--peach)"  delay={160}/>
+        <StatCard label="Prioritas Tinggi" value={high}   sub="perlu segera dikerjakan"               icon={<AlertCircle  size={20}/>} accent="var(--highlight)" delay={80} />
+        <StatCard label="Streak"           value="5"      sub="hari berturut-turut"                   icon={<Flame        size={20}/>} accent="var(--highlight2)"  delay={160}/>
         <StatCard label="Jam Belajar"      value="3.5h"   sub="hari ini"                              icon={<Clock        size={20}/>} accent="var(--lime)"   delay={240}/>
       </div>
 
@@ -111,7 +111,7 @@ export default function Dashboard({ tasks }) {
                       width: "100%",
                       height: `${(w.h / maxH) * 90}%`,
                       minHeight: 4,
-                      background: isToday ? "var(--orange)" : "var(--lime-mute)",
+                      background: isToday ? "var(--highlight)" : "var(--mute)",
                       border: isToday ? "none" : "1px solid var(--border)",
                       borderRadius: "6px 6px 0 0",
                       transition: "height 0.6s cubic-bezier(0.22,1,0.36,1)",
@@ -131,7 +131,7 @@ export default function Dashboard({ tasks }) {
           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             {MONTHS[today.getMonth()]} {today.getFullYear()}
             <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.72rem", color: "var(--text3)" }}>
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: "var(--lime)" }} />
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: "var(--accent)" }} />
               Produktif
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function Dashboard({ tasks }) {
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "0.73rem",
-                    background: isToday ? "var(--orange)" : isProd ? "var(--lime-mute)" : "transparent",
+                    background: isToday ? "var(--highlight)" : isProd ? "var(--mute)" : "transparent",
                     color: isToday ? "#fff" : isProd ? "var(--accent)" : "var(--text3)",
                     fontWeight: isToday ? 700 : 400,
                   }}
@@ -193,7 +193,7 @@ export default function Dashboard({ tasks }) {
                 <span style={{ flex: 1, fontSize: "0.85rem", color: "var(--text)", textDecoration: t.done ? "line-through" : "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {t.name}
                 </span>
-                <div style={{ width: 6, height: 6, borderRadius: 99, flexShrink: 0, background: t.priority === "high" ? "var(--orange)" : t.priority === "medium" ? "var(--peach)" : "var(--lime)" }} />
+                <div style={{ width: 6, height: 6, borderRadius: 99, flexShrink: 0, background: t.priority === "high" ? "var(--highlight)" : t.priority === "medium" ? "var(--highlight2)" : "var(--lime)" }} />
               </div>
             ))}
             {!tasks.length && (
@@ -211,8 +211,8 @@ export default function Dashboard({ tasks }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {[
               { label: "Jam Belajar",      current: 24,    goal: 30, color: "var(--accent)"  },
-              { label: "Tugas Selesai",    current: done,  goal: 20, color: "var(--orange)"  },
-              { label: "Hari Produktif",   current: 12,    goal: 20, color: "var(--peach)"   },
+              { label: "Tugas Selesai",    current: done,  goal: 20, color: "var(--highlight)"  },
+              { label: "Hari Produktif",   current: 12,    goal: 20, color: "var(--highlight2)"   },
             ].map((t, i) => (
               <div key={i}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: "0.82rem" }}>
