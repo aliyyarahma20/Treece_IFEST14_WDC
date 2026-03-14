@@ -266,8 +266,8 @@ const GlobalStyle = () => (
       transform: rotate(45deg);
     }
 
-    @media (max-width: 768px) { .hide-mobile { display: none !important; } }
-    @media (min-width: 769px) { .show-mobile { display: none !important; } }
+    @media (max-width: 592px) { .hide-mobile { display: none !important; } }
+    @media (min-width: 593px) { .show-mobile { display: none !important; } }
 
     /* ── RESPONSIVE GRID UTILITIES ── */
     .grid-2col {
@@ -277,6 +277,43 @@ const GlobalStyle = () => (
     @media (max-width: 640px) {
       .grid-2col {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .landing-nav-right {
+        gap: 8px !important;
+        flex-shrink: 0;        /* ← tambah */
+      }
+      .lang-toggle {
+        width: 60px !important;
+        height: 28px !important;
+        flex-shrink: 0;
+      }
+      /* Pastikan nav tidak overflow */
+      nav {
+        overflow: hidden !important;
+      }
+
+      .feat-heading {
+        white-space: normal !important;
+        font-size: clamp(1.3rem, 5vw, 1.8rem) !important;
+      }
+      .feat-desc {
+        white-space: normal !important;
+        font-size: 0.77rem !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .feat-heading {
+        white-space: normal !important;
+        font-size: 1.3rem !important;
+        letter-spacing: -0.3px !important;
+      }
+      .feat-desc {
+        white-space: normal !important;
+        font-size: 0.82rem !important;
       }
     }
 

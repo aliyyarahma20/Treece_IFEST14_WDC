@@ -130,7 +130,7 @@ export default function Landing({ onEnter }) {
     <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
 
       {/* ── NAVBAR ── */}
-      <nav style={{
+     <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
         padding: "0 5%",
         background: scrolled ? "rgba(242,232,223,0.9)" : "transparent",
@@ -139,12 +139,23 @@ export default function Landing({ onEnter }) {
         transition: "all 0.3s",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         height: 64,
+        overflow: "hidden",        // ← tambah ini
+        boxSizing: "border-box",   // ← tambah ini
       }}>
-        <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "var(--accent)" }}>
-          Steady<span style={{ color: "var(--highlight)" }}>Rise</span>
-        </span>
+        {/* Logo desktop — tulisan */}
+      <span className="hide-mobile" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "var(--accent)" }}>
+        Steady<span style={{ color: "var(--highlight)" }}>Rise</span>
+      </span>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+      {/* Logo mobile — gambar */}
+      <img
+        src="/images/logo_hitam.png"
+        alt="SteadyRise"
+        className="show-mobile"
+        style={{ height: 28, objectFit: "contain" }}
+      />
+
+      <div className="landing-nav-right" style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 20 }}>
             {[
               { label: t.landing.fitur,   ref: featRef },
@@ -178,7 +189,8 @@ export default function Landing({ onEnter }) {
             }}
           >
             {/* Sliding knob */}
-            <div style={{
+            <div 
+              style={{
               position: "absolute",
               width: 34, height: 26,
               background: "var(--bg)",
@@ -203,9 +215,9 @@ export default function Landing({ onEnter }) {
             ))}
           </div>
 
-          <Button onClick={onEnter} size="sm">
+          <Button onClick={onEnter} size="sm" style={{ flexShrink: 0 }}>
             <span className="hide-mobile">{t.landing.mulai}</span>
-            <span className="show-mobile">{t.landing.mulai}</span>
+            <span className="show-mobile">Mulai</span>
             <ChevronRight size={15} />
           </Button>
         </div>
@@ -362,10 +374,10 @@ export default function Landing({ onEnter }) {
       {/* ── FEATURES ── */}
       <section ref={featRef} style={{ padding: "30px 5%", maxWidth: 1100, margin: "0 auto" }}>
         <div className="section-reveal" style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.6rem)", letterSpacing: "-0.5px", marginBottom: 12, whiteSpace: "nowrap" }}>
+          <h2 className="feat-heading" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.1rem, 4vw, 2.6rem)", letterSpacing: "-0.5px", marginBottom: 12 }}>
             {t.landing.feat_heading}<br />{t.landing.feat_sub_heading}
           </h2>
-          <p style={{ color: "var(--text2)", fontSize: "1rem", maxWidth: 480, margin: "0 auto", whiteSpace: "nowrap" }}>
+          <p className="feat-desc" style={{ color: "var(--text2)", fontSize: "clamp(0.78rem, 2.5vw, 1rem)", maxWidth: 480, margin: "0 auto"}}>
             {t.landing.feat_desc}
           </p>
         </div>
@@ -453,13 +465,11 @@ export default function Landing({ onEnter }) {
           <h3 style={{
             fontFamily: "'Syne',sans-serif", fontWeight: 800,
             fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", color: "#D2E186", marginBottom: 8,
-            // whiteSpace: "nowrap",  ← HAPUS INI
           }}>
             {t.landing.cta_title}
           </h3>
-          <p style={{
+          <p className="feat-desc" style={{
             color: "rgba(252,191,147,0.8)", fontSize: "0.95rem",
-            whiteSpace: "nowrap",
           }}>
             {t.landing.cta_desc}
           </p>
