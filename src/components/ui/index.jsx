@@ -21,10 +21,11 @@ export function Card({ children, style = {}, className = "" }) {
 
 /* ── BADGE ── */
 const BADGE_COLORS = {
-  lime:   { bg: "var(--lime-mute)",   color: "var(--accent)"  },
-  orange: { bg: "var(--orange-mute)", color: "var(--orange)"  },
-  muted:  { bg: "var(--surface2)",    color: "var(--text3)"   },
-  peach:  { bg: "rgba(252,191,147,0.25)", color: "#c96a2a"    },
+  lime:   { bg: "var(--mute)",    color: "var(--accent)"   },
+  accent: { bg: "var(--mute)",    color: "var(--accent)"   },
+  orange: { bg: "var(--mute2)",   color: "var(--highlight)" },
+  muted:  { bg: "var(--surface2)", color: "var(--text3)"   },
+  peach:  { bg: "var(--mute2)",   color: "var(--highlight)" },
 };
 
 export function Badge({ children, color = "lime" }) {
@@ -62,8 +63,8 @@ export function Modal({ open, onClose, children, maxW = 480 }) {
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0,0,0,0.5)",
-        backdropFilter: "blur(8px)",
+        background: "rgba(0,0,0,0.15)",
+        backdropFilter: "blur(2px)",
         zIndex: 1000,
         display: "flex",
         alignItems: "center",
