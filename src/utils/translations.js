@@ -3,6 +3,8 @@
 //  Supported: "en" | "id"
 // ─────────────────────────────────────────────
 
+import { Settings } from "lucide-react";
+
 export const translations = {
   en: {
     // ── App / Brand ──
@@ -76,17 +78,17 @@ export const translations = {
     nav_items: {
       dashboard: "Dashboard",
       todo: "Task Manager",
-      target: "Targets",
+      target: "Target",
       recap: "Monthly Recap",
       notes: "Study Notes",
-      pomodoro: "Pomodoro Timer",
-      habit: "Habit Tracker",
+      settings: "Settings",
     },
 
     sidebar: {
       theme: "Theme",
       activeStudent: "Active Student",
       logout: "Logout",
+      preferences: "Preferences",
     },
 
     // ── Common UI ──
@@ -358,12 +360,13 @@ export const translations = {
     },
 
     nav_items: {
-      dashboard: "Dashboard",
-      todo: "Task Manager",
+      dashboard: "Beranda",
+      todo: "Manajemen Tugas",
       target: "Target",
-      recap: "Monthly Recap",
+      recap: "Rekap Bulanan",
       notes: "Catatan Belajar",
-      pomodoro: "Pomodoro Timer",
+      settings: "Pengaturan",
+      pomodoro: "Pomodoro",
       habit: "Habit Tracker",
     },
 
@@ -371,6 +374,7 @@ export const translations = {
       theme: "Tema",
       activeStudent: "Mahasiswa Aktif",
       logout: "Keluar",
+      preferences: "Preferensi",
     },
 
     common: {

@@ -4,18 +4,21 @@ import {
   BarChart2, BookOpen,
 } from "lucide-react";
 import { Divider } from "../ui/index.jsx";
+import { useLanguage } from "../../context/LanguageContext.jsx";
 
-export const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard",       icon: LayoutDashboard },
-  { id: "todo",      label: "Task Manager",    icon: CheckSquare     },
-  { id: "target",    label: "Target",          icon: Target          },
-  { id: "recap",     label: "Monthly Recap",   icon: BarChart2       },
-  { id: "notes",     label: "Catatan Belajar", icon: BookOpen        },
-  { id: "settings",  label: "Settings",        icon: Settings        },
+export const getNavItems = (t) => [
+  { id: "dashboard", label: t.nav_items.dashboard, icon: LayoutDashboard },
+  { id: "todo",      label: t.nav_items.todo,      icon: CheckSquare     },
+  { id: "target",    label: t.nav_items.target,    icon: Target          },
+  { id: "recap",     label: t.nav_items.recap,     icon: BarChart2       },
+  { id: "notes",     label: t.nav_items.notes,     icon: BookOpen        },
+  { id: "settings",  label: t.nav_items.settings, icon: Settings },
 ];
 
 export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, user, onLogout }) {
-  const W = collapsed ? 64 : 220;
+  const W = collapsed ? 64 : 225;
+  const { t } = useLanguage();
+    const NAV_ITEMS = getNavItems(t);
 
   return (
     <>
@@ -42,14 +45,19 @@ export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, 
           alignItems: "center",
           justifyContent: collapsed ? "center" : "space-between",
           minHeight: 64,
+          overflow: "hidden",
+          gap: 8,
         }}>
           {!collapsed && (
             <span style={{
               fontFamily: "'Syne', sans-serif",
               fontWeight: 800,
-              fontSize: "1.1rem",
+              fontSize: "17px",
               color: "var(--accent)",
               whiteSpace: "nowrap",
+              minWidth: 0,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}>
               Steady<span style={{ color: "var(--logo-sub)" }}>Rise</span>
             </span>
@@ -103,7 +111,7 @@ export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, 
                     justifyContent: collapsed ? "center" : "flex-start",
                     gap: collapsed ? 0 : 10,
                     color: active ? "var(--accent)" : "var(--text2)",
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "inherit",
                     fontSize: "0.86rem",
                     fontWeight: active ? 600 : 400,
                     transition: "all 0.15s",
@@ -262,7 +270,7 @@ export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, 
                 }}>
                   {user?.name || "Pengguna"}
                 </div>
-                <div style={{ fontSize: "0.71rem", color: "var(--text3)" }}>Mahasiswa Aktif</div>
+                <div style={{ fontSize: "0.71rem", color: "var(--text3)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.sidebar.activeStudent}</div>
               </div>
               <button
                 onClick={onLogout}
@@ -325,14 +333,11 @@ export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, 
               )}
               <Icon size={20} strokeWidth={active ? 2.5 : 1.8} />
               <span style={{
+                fontFamily: "inherit",
                 fontSize: "0.58rem", fontWeight: active ? 700 : 400,
-                fontFamily: "'Outfit', sans-serif",
                 whiteSpace: "nowrap",
               }}>
-                {item.label === "Catatan Belajar" ? "Catatan" :
-                 item.label === "Monthly Recap"   ? "Recap"   :
-                 item.label === "Task Manager"    ? "Tugas"   :
-                 item.label}
+                {item.label.length > 8 ? item.label.split(" ")[0] : item.label}
               </span>
             </button>
           );

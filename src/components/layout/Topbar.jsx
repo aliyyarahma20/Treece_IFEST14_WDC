@@ -1,7 +1,10 @@
 import { LogOut } from "lucide-react";
-import { NAV_ITEMS } from "./Sidebar.jsx";
+import { getNavItems } from "./Sidebar.jsx";
+import { useLanguage } from "../../context/LanguageContext.jsx";
 
 export default function Topbar({ page, user, onLogout }) {
+  const { t } = useLanguage();
+  const NAV_ITEMS = getNavItems(t);
   const label = NAV_ITEMS.find((n) => n.id === page)?.label || "";
 
   return (
