@@ -73,7 +73,7 @@ function AppContent() {
             user={user}
             onLogout={handleLogout}
           />
-          <Topbar page={page}/>
+          <Topbar page={page} user={user} onLogout={handleLogout} />
           <main
             style={{
               marginLeft: sidebarCollapsed ? 64 : 220,
