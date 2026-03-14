@@ -4,49 +4,8 @@ import {
   BookOpen, Timer, ArrowRight, ChevronRight, Zap,
 } from "lucide-react";
 import Button from "../components/ui/Button.jsx";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
-const FEATURES = [
-  {
-    id: "dashboard",
-    icon: <LayoutDashboard size={22} />,
-    title: "Dashboard Produktivitas",
-    desc: "Tidak ada lagi hari yang terasa sia-sia. Lihat semua progress harianmu dalam satu pandangan — grafik, streak, dan kalender aktivitas.",
-    tag: "Overview",
-    preview: <img src="/images/preview-dashboard.png" alt="Dashboard" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
-  },
-  {
-    id: "todo",
-    icon: <CheckSquare size={22} />,
-    title: "Task Manager",
-    desc: "Tidak ada lagi tugas yang terlupakan di detik terakhir. Atur prioritas, set deadline, dan reminder verifikasi yang memastikan kamu benar-benar mengerjakan.",
-    tag: "Produktivitas",
-    preview: <img src="/images/preview-todo.png" alt="Task Manager" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
-  },
-  {
-    id: "target",
-    icon: <Target size={22} />,
-    title: "Target",
-    desc: "Set target belajarmu, lalu selesaikan dengan sesi Pomodoro terintegrasi. Dari niat jadi aksi — semua dalam satu halaman.",
-    tag: "Goals",
-    preview: <img src="/images/preview-target.png" alt="Target" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
-  },
-  {
-    id: "recap",
-    icon: <BarChart2 size={22} />,
-    title: "Monthly Recap",
-    desc: "Bukan sekadar data — ini cermin produktivitasmu. Lihat mana hari terbaikmu, kapan kamu paling fokus, dan berapa jauh kamu sudah berkembang.",
-    tag: "Insight",
-    preview: <img src="/images/preview-recap.png" alt="Monthly Recap" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
-  },
-  {
-    id: "notes",
-    icon: <BookOpen size={22} />,
-    title: "Catatan Belajar",
-    desc: "Satu tempat untuk semua catatan kuliahmu. Terstruktur per mata kuliah, mudah dicari, dan selalu siap saat mau belajar.",
-    tag: "Belajar",
-    preview: <img src="/images/preview-notes.png" alt="Catatan Belajar" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
-  },
-];
 
 function FeatureTab({ f, active, onClick }) {
   const [hovered, setHovered] = useState(false);
@@ -60,7 +19,7 @@ function FeatureTab({ f, active, onClick }) {
         padding: "14px 16px", borderRadius: 14,
         border: `1px solid ${active ? "var(--accent)" : hovered ? "var(--border)" : "transparent"}`,
         cursor: "pointer",
-        background: active ? "var(--lime-mute)" : hovered ? "var(--surface2)" : "transparent",
+        background: active ? "var(--mute)" : hovered ? "var(--surface2)" : "transparent",
         transition: "all 0.2s",
         display: "flex", alignItems: "center", gap: 12,
         marginBottom: 2,
@@ -98,10 +57,30 @@ export default function Landing({ onEnter }) {
   const [activeFeature, setActiveFeature] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
+  const { t, lang, toggleLang } = useLanguage();
+
+  const FEATURES = [
+    { id: "dashboard", icon: <LayoutDashboard size={22} />, tag: t.landing.tags[0], preview: <img src="/images/preview-dashboard.png" alt="Dashboard" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[0] },
+    { id: "todo",      icon: <CheckSquare size={22} />,     tag: t.landing.tags[1], preview: <img src="/images/preview-todo.png" alt="Task Manager" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[1] },
+    { id: "target",    icon: <Target size={22} />,          tag: t.landing.tags[2], preview: <img src="/images/preview-target.png" alt="Target" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[2] },
+    { id: "recap",     icon: <BarChart2 size={22} />,       tag: t.landing.tags[3], preview: <img src="/images/preview-recap.png" alt="Monthly Recap" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[3] },
+    { id: "notes",     icon: <BookOpen size={22} />,        tag: t.landing.tags[4], preview: <img src="/images/preview-notes.png" alt="Catatan Belajar" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[4] },
+  ];
 
   const heroRef = useRef();
   const featRef = useRef();
   const ctaRef  = useRef();
+
+  // Force morning-mist theme untuk landing page
+  useEffect(() => {
+    const prev = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", "morning-mist");
+    return () => {
+      // Restore tema user waktu keluar landing
+      const saved = localStorage.getItem("sr_theme") || "morning-mist";
+      document.body.setAttribute("data-theme", saved);
+    };
+  }, []);
 
   // Scroll spy
   useEffect(() => {
@@ -162,14 +141,14 @@ export default function Landing({ onEnter }) {
         height: 64,
       }}>
         <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "var(--accent)" }}>
-          Steady<span style={{ color: "var(--orange)" }}>Rise</span>
+          Steady<span style={{ color: "var(--highlight)" }}>Rise</span>
         </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 20 }}>
             {[
-              { label: "Fitur",   ref: featRef },
-              { label: "Tentang", ref: ctaRef  },
+              { label: t.landing.fitur,   ref: featRef },
+              { label: t.landing.tentang, ref: ctaRef  },
             ].map((l, i) => (
               <button
                 key={i}
@@ -187,9 +166,46 @@ export default function Landing({ onEnter }) {
             ))}
           </div>
 
+          <div
+            onClick={toggleLang}
+            style={{
+              position: "relative",
+              display: "flex", alignItems: "center",
+              background: "var(--accent)", border: "1px solid var(--border)",
+              borderRadius: 99, padding: "3px",
+              cursor: "pointer", width: 76, height: 32,
+              flexShrink: 0,
+            }}
+          >
+            {/* Sliding knob */}
+            <div style={{
+              position: "absolute",
+              width: 34, height: 26,
+              background: "var(--bg)",
+              borderRadius: 99,
+              left: 3,
+              transform: lang === "en" ? `translateX(36px)` : "translateX(0px)",
+              transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+            }} />
+
+            {/* Labels */}
+            {[["id", "ID"], ["en", "EN"]].map(([val, label]) => (
+              <div key={val} style={{
+                flex: 1, textAlign: "center",
+                fontSize: "0.72rem", fontWeight: 800,
+                color: lang === val ? "var(--accent)" : "var(--bg)",
+                position: "relative", zIndex: 1,
+                transition: "color 0.2s",
+              }}>
+                {label}
+              </div>
+            ))}
+          </div>
+
           <Button onClick={onEnter} size="sm">
-            <span className="hide-mobile">Mulai Sekarang</span>
-            <span className="show-mobile">Mulai</span>
+            <span className="hide-mobile">{t.landing.mulai}</span>
+            <span className="show-mobile">{t.landing.mulai}</span>
             <ChevronRight size={15} />
           </Button>
         </div>
@@ -219,19 +235,21 @@ export default function Landing({ onEnter }) {
               lineHeight: 1.08, letterSpacing: "-2px",
               marginBottom: 28, color: "var(--text)",
             }}>
-              Satu platform.<br />
-              Semua produktivitas.<br />
+              {t.landing.headline1}<br />
+              {t.landing.headline2}<br />
               <span style={{
-                background: "linear-gradient(135deg, var(--orange), var(--peach))",
+                background: "linear-gradient(135deg, var(--highlight), var(--highlight2))",
                 WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                display: "inline",
+                whiteSpace: "nowrap",
               }}>
-                Tanpa batas.
+                {t.landing.headline3}
               </span>
             </h1>
 
             <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
               <Button onClick={onEnter} size="lg">
-                Mulai Produktif <ArrowRight size={18} />
+                {t.landing.cta_btn} <ArrowRight size={18} />
               </Button>
             </div>
           </div>
@@ -240,24 +258,19 @@ export default function Landing({ onEnter }) {
           <div className="hero-right" style={{ flex: "0 1 380px", display: "flex", flexDirection: "column", gap: 10, paddingTop: 8 }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8,
-              background: "var(--orange-mute)", border: "1px solid rgba(251,129,89,0.35)",
+              background: "var(--mute2)", border: "1px solid rgba(251,129,89,0.35)",
               borderRadius: 99, padding: "6px 14px", fontSize: "0.75rem",
-              fontWeight: 700, color: "var(--orange)", width: "fit-content",
+              fontWeight: 700, color: "var(--highlight)", width: "fit-content",
             }}>
-              <Zap size={12} /> IFest WDC 2026
+              <Zap size={12} /> {t.landing.tagline}
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 8 }}>
-              {[
-                "Kelola aktivitas belajar dengan lebih terstruktur",
-                "Sync otomatis dengan Google Calendar",
-                "Tersedia dalam 2 bahasa: Indonesia dan Inggris",
-                "Kustomisasi tampilan: tema, font, dan ukuran teks",
-              ].map((item, i) => (
+              {t.landing.checklist.map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <div style={{
                     width: 18, height: 18, borderRadius: 99,
-                    background: "var(--lime-mute)", border: "1px solid var(--accent)",
+                    background: "var(--mute)", border: "1px solid var(--accent)",
                     display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                   }}>
                     <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
@@ -330,12 +343,12 @@ export default function Landing({ onEnter }) {
         {/* App Mockup */}
         <div className="float-anim hero-mockup" style={{
           background: "var(--bg)", borderRadius: 16,
-          padding: "16px", border: "1px solid var(--border),", marginTop: 50,
+          padding: "16px", border: "1px solid var(--border)", marginTop: 50,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
-            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--orange)" }} />
-            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--peach)" }} />
-            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--lime)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--highlight)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--highlight)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }} />
             <div style={{ flex: 1, height: 6, background: "var(--surface2)", borderRadius: 99, marginLeft: 4 }} />
           </div>
           <div style={{ lineHeight: 0 }}>
@@ -347,11 +360,11 @@ export default function Landing({ onEnter }) {
       {/* ── FEATURES ── */}
       <section ref={featRef} style={{ padding: "30px 5%", maxWidth: 1100, margin: "0 auto" }}>
         <div className="section-reveal" style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.6rem)", letterSpacing: "-0.5px", marginBottom: 12 }}>
-            Semua yang kamu butuhkan,<br />dalam satu tempat.
+          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.6rem)", letterSpacing: "-0.5px", marginBottom: 12, whiteSpace: "nowrap" }}>
+            {t.landing.feat_heading}<br />{t.landing.feat_sub_heading}
           </h2>
           <p style={{ color: "var(--text2)", fontSize: "1rem", maxWidth: 480, margin: "0 auto" }}>
-            Dirancang khusus untuk ritme kehidupan mahasiswa yang dinamis dan penuh tantangan.
+            {t.landing.feat_desc}
           </p>
         </div>
 
@@ -381,7 +394,7 @@ export default function Landing({ onEnter }) {
             <div className="fade-in" key={activeFeature}>
               <div style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                background: "var(--lime-mute)", border: "1px solid var(--border)",
+                background: "var(--mute)", border: "1px solid var(--border)",
                 borderRadius: 99, padding: "4px 12px", marginBottom: 14,
                 fontSize: "0.72rem", fontWeight: 600, color: "var(--accent)",
               }}>
@@ -396,9 +409,9 @@ export default function Landing({ onEnter }) {
 
               <div style={{ background: "var(--bg)", borderRadius: 16, padding: "16px", border: "1px solid var(--border)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--orange)" }} />
-                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--peach)" }} />
-                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--lime)" }} />
+                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--highlight)" }} />
+                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--highlight)" }} />
+                  <div style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }} />
                   <div style={{ flex: 1, height: 6, background: "var(--surface2)", borderRadius: 99, marginLeft: 4 }} />
                 </div>
                 {FEATURES[activeFeature].preview}
@@ -408,7 +421,7 @@ export default function Landing({ onEnter }) {
                 onClick={onEnter}
                 style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", color: "var(--accent)", fontWeight: 700, fontSize: "0.88rem", cursor: "pointer", padding: 0, fontFamily: "'Outfit',sans-serif" }}
               >
-                Coba fitur ini <ArrowRight size={15} />
+                {t.landing.coba} <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -432,19 +445,27 @@ export default function Landing({ onEnter }) {
           }}
         >
           <div style={{ position: "absolute", right: 40, bottom: -20, opacity: 0.07 }}>
-            <Zap size={180} />
           </div>
-          <div>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.8rem", color: "#D2E186", marginBottom: 8 }}>
-              Siap jadi lebih produktif?
-            </h3>
-            <p style={{ color: "rgba(252,191,147,0.8)", fontSize: "0.95rem" }}>
-              Bergabung sekarang dan mulai kendalikan waktu belajarmu.
-            </p>
-          </div>
-          <Button onClick={onEnter} size="lg" style={{ background: "#D2E186", color: "#415111", flexShrink: 0 }}>
-            Mulai Sekarang <ArrowRight size={18} />
-          </Button>
+          {/* Ganti bagian dalam landing-cta-banner jadi ini */}
+        <div style={{ flex: "1 1 0", minWidth: 0, maxWidth: "60%" }}>  {/* ← tambahin ini */}
+          <h3 style={{
+            fontFamily: "'Syne',sans-serif", fontWeight: 800,
+            fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", color: "#D2E186", marginBottom: 8,
+            // whiteSpace: "nowrap",  ← HAPUS INI
+          }}>
+            {t.landing.cta_title}
+          </h3>
+          <p style={{
+            color: "rgba(252,191,147,0.8)", fontSize: "0.95rem",
+            whiteSpace: "nowrap",
+          }}>
+            {t.landing.cta_desc}
+          </p>
+        </div>
+
+        <Button onClick={onEnter} size="lg" style={{ background: "#D2E186", color: "#415111", flexShrink: 0 }}>
+          {t.landing.cta_btn} <ArrowRight size={18} />
+        </Button>
         </div>
       </section>
 
@@ -457,7 +478,7 @@ export default function Landing({ onEnter }) {
         <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, color: "var(--accent)" }}>
           SteadyRise
         </span>
-        <span>IFest WDC 2026 — Empowering Students Through Innovative Productivity Tools</span>
+        <span>{t.landing.footer}</span>
       </footer>
 
       {/* ── SCROLL INDICATOR ── */}
@@ -468,7 +489,7 @@ export default function Landing({ onEnter }) {
       }}>
         {[
           { label: "Hero",  ref: heroRef },
-          { label: "Fitur", ref: featRef },
+          { label: t.landing.fitur, ref: featRef },
           { label: "CTA",   ref: ctaRef  },
         ].map((s, i) => (
           <button

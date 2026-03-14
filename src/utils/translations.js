@@ -42,16 +42,12 @@ export const translations = {
           desc: "Real-time progress visualization through charts, streaks, and activity calendar.",
         },
         {
-          title: "Advanced Task Manager",
+          title: "Task Manager",
           desc: "Manage tasks with deadlines, priorities, and categories. Quick filters for focus.",
         },
         {
-          title: "Target & Goal Setting",
+          title: "Target",
           desc: "Set study targets and track achievements with motivating progress bars.",
-        },
-        {
-          title: "Smart Reminder",
-          desc: "Reminders that can't be dismissed without answering a verification question.",
         },
         {
           title: "Monthly Recap",
@@ -60,14 +56,6 @@ export const translations = {
         {
           title: "Study Notes",
           desc: "Structured note-taking per subject with tags and quick search.",
-        },
-        {
-          title: "Pomodoro Timer",
-          desc: "Built-in Pomodoro technique — 25 minutes focus, 5 minutes rest.",
-        },
-        {
-          title: "Habit Tracker",
-          desc: "Build good habits with daily tracker and streak counter.",
         },
       ],
     },
@@ -123,6 +111,33 @@ export const translations = {
       today: "Today",
       week: "This Week",
       month: "This Month",
+    },
+
+    // ── Landing ──
+    landing: {
+      fitur: "Features",
+      tentang: "About",
+      mulai: "Get Started",
+      headline1: "One platform.",
+      headline2: "All productivity.",
+      headline3: "Without limits.",
+      cta_btn: "Start Productive",
+      feat_heading: "Everything you need,",
+      feat_sub_heading: "in one place.",
+      feat_desc: "Designed for the dynamic rhythm of student life.",
+      cta_title: "Ready to be more productive?",
+      cta_desc: "Join now and start taking control of your study time.",
+      cta_btn2: "Get Started",
+      coba: "Try this feature",
+      checklist: [
+        "Manage study activities more structured",
+        "Auto sync with Google Calendar",
+        "Available in 2 languages: Indonesian & English",
+        "Customize: theme, font, and text size",
+      ],
+      tags: ["Overview", "Productivity", "Goals", "Insight", "Study"],
+      footer: "IFest WDC 2026 — Innovative Productivity Tools for a Better You",
+      tagline: "Innovative Productivity Tools for a Better You",
     },
 
     // ── Dashboard ──
@@ -268,36 +283,24 @@ export const translations = {
       sub: "Dirancang khusus untuk ritme kehidupan mahasiswa yang dinamis dan penuh tantangan.",
       items: [
         {
-          title: "Dashboard Produktivitas",
+          title: "Beranda Produktivitas",
           desc: "Visualisasi real-time progress harian lewat grafik, streak, dan kalender aktivitas.",
         },
         {
-          title: "Task Manager Canggih",
+          title: "Manajemen Tugas",
           desc: "Kelola tugas dengan deadline, prioritas, dan kategori. Filter cepat untuk fokus.",
         },
         {
-          title: "Target & Goal Setting",
+          title: "Target",
           desc: "Set target belajar dan pantau pencapaian dengan progress bar yang memotivasi.",
         },
         {
-          title: "Smart Reminder",
-          desc: "Pengingat yang tidak bisa di-dismiss tanpa menjawab pertanyaan verifikasi.",
-        },
-        {
-          title: "Monthly Recap",
+          title: "Rekap Bulanan",
           desc: "Rekap bulanan lengkap: tugas, jam belajar, hari produktif, dan insight waktu.",
         },
         {
           title: "Catatan Belajar",
           desc: "Note-taking terstruktur per mata kuliah dengan tag dan pencarian cepat.",
-        },
-        {
-          title: "Pomodoro Timer",
-          desc: "Teknik Pomodoro built-in — fokus 25 menit, istirahat 5 menit.",
-        },
-        {
-          title: "Habit Tracker",
-          desc: "Bangun kebiasaan baik dengan tracker harian dan streak counter.",
         },
       ],
     },
@@ -349,6 +352,33 @@ export const translations = {
       today: "Hari Ini",
       week: "Minggu Ini",
       month: "Bulan Ini",
+    },
+
+    // ── Landing ──
+    landing: {
+      fitur: "Fitur",
+      tentang: "Tentang",
+      mulai: "Mulai Sekarang",
+      headline1: "Satu platform.",
+      headline2: "Semua produktivitas.",
+      headline3: "Tanpa batas.",
+      cta_btn: "Mulai Produktif",
+      feat_heading: "Semua yang kamu butuhkan,",
+      feat_sub_heading: "dalam satu tempat.",
+      feat_desc: "Dirancang khusus untuk ritme kehidupan mahasiswa yang dinamis dan penuh tantangan.",
+      cta_title: "Siap jadi lebih produktif?",
+      cta_desc: "Bergabung sekarang dan mulai kendalikan waktu belajarmu.",
+      cta_btn2: "Mulai Sekarang",
+      coba: "Coba fitur ini",
+      checklist: [
+        "Kelola aktivitas belajar dengan lebih terstruktur",
+        "Sinkronisasi otomatis dengan Google Calendar",
+        "Tersedia dalam 2 bahasa: Indonesia dan Inggris",
+        "Kustomisasi tampilan: tema, font, dan ukuran teks",
+      ],
+        tags: ["Ringkasan", "Produktivitas", "Target", "Statistik", "Belajar"],
+        footer: "IFest WDC 2026 — Inovasi Produktivitas untuk Versi Terbaikmu",
+        tagline: "Inovasi Produktivitas untuk Versi Terbaikmu",
     },
 
     dashboard: {
