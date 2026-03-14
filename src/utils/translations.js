@@ -124,7 +124,7 @@ export const translations = {
       cta_btn: "Start Productive",
       feat_heading: "Everything you need,",
       feat_sub_heading: "in one place.",
-      feat_desc: "Designed for the dynamic rhythm of student life.",
+      feat_desc: "Designed for your dynamic and challenge-filled daily rhythm.",
       cta_title: "Ready to be more productive?",
       cta_desc: "Join now and start taking control of your study time.",
       cta_btn2: "Get Started",
@@ -280,7 +280,7 @@ export const translations = {
 
     features: {
       heading: "Semua yang kamu butuhkan,\ndalam satu tempat.",
-      sub: "Dirancang khusus untuk ritme kehidupan mahasiswa yang dinamis dan penuh tantangan.",
+      sub: "Dirancang untuk ritme hidupmu yang dinamis dan penuh tantangan.",
       items: [
         {
           title: "Beranda Produktivitas",
@@ -365,7 +365,7 @@ export const translations = {
       cta_btn: "Mulai Produktif",
       feat_heading: "Semua yang kamu butuhkan,",
       feat_sub_heading: "dalam satu tempat.",
-      feat_desc: "Dirancang khusus untuk ritme kehidupan mahasiswa yang dinamis dan penuh tantangan.",
+      feat_desc: "Dirancang untuk ritme hidupmu yang dinamis dan penuh tantangan.",
       cta_title: "Siap jadi lebih produktif?",
       cta_desc: "Bergabung sekarang dan mulai kendalikan waktu belajarmu.",
       cta_btn2: "Mulai Sekarang",

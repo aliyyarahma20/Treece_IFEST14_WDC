@@ -184,7 +184,7 @@ export default function Landing({ onEnter }) {
               background: "var(--bg)",
               borderRadius: 99,
               left: 3,
-              transform: lang === "en" ? `translateX(36px)` : "translateX(0px)",
+              transform: lang === "en" ? `translateX(34px)` : "translateX(0px)",
               transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
               boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
             }} />
@@ -363,7 +363,7 @@ export default function Landing({ onEnter }) {
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.6rem)", letterSpacing: "-0.5px", marginBottom: 12, whiteSpace: "nowrap" }}>
             {t.landing.feat_heading}<br />{t.landing.feat_sub_heading}
           </h2>
-          <p style={{ color: "var(--text2)", fontSize: "1rem", maxWidth: 480, margin: "0 auto" }}>
+          <p style={{ color: "var(--text2)", fontSize: "1rem", maxWidth: 480, margin: "0 auto", whiteSpace: "nowrap" }}>
             {t.landing.feat_desc}
           </p>
         </div>
