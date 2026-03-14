@@ -177,34 +177,65 @@ export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, 
         <div style={{ padding: "12px 8px" }}>
           {collapsed ? (
             // Collapsed: hanya avatar + logout di bawah
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              {user?.avatar ? (
-                <img src={user.avatar} width={32} height={32}
-                  style={{ borderRadius: 10, objectFit: "cover" }} alt="avatar" />
-              ) : (
-                <div style={{
-                  width: 32, height: 32, borderRadius: 10,
-                  background: "linear-gradient(135deg, var(--accent2), var(--accent))",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "var(--bg)", fontWeight: 700, fontSize: "0.85rem",
-                }}>
-                  {user?.name?.[0]?.toUpperCase() || "U"}
-                </div>
-              )}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+            {user?.avatar ? (
+              <img src={user.avatar} width={32} height={32}
+                style={{ borderRadius: 10, objectFit: "cover" }} alt="avatar" />
+            ) : (
+              <div style={{
+                width: 32, height: 32, borderRadius: 10,
+                background: "linear-gradient(135deg, var(--accent2), var(--accent))",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "var(--bg)", fontWeight: 700, fontSize: "0.85rem",
+              }}>
+                {user?.name?.[0]?.toUpperCase() || "U"}
+              </div>
+            )}
+
+            {/* Logout dengan custom tooltip */}
+            <div style={{ position: "relative" }}>
               <button
                 onClick={onLogout}
-                data-tip="Keluar"
                 style={{
                   background: "none", border: "none", cursor: "pointer",
                   color: "var(--text3)", display: "flex", padding: 4,
                   borderRadius: 8, transition: "color 0.15s",
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.color = "var(--highlight)"}
-                onMouseLeave={(e) => e.currentTarget.style.color = "var(--text3)"}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--highlight)";
+                  e.currentTarget.parentElement.querySelector(".sidebar-tip").style.opacity = "1";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--text3)";
+                  e.currentTarget.parentElement.querySelector(".sidebar-tip").style.opacity = "0";
+                }}
               >
                 <LogOut size={15} />
               </button>
+              <div
+                className="sidebar-tip"
+                style={{
+                  position: "fixed",
+                  left: 72,
+                  opacity: 0,
+                  pointerEvents: "none",
+                  transition: "opacity 0.15s",
+                  background: "var(--accent)",
+                  color: "var(--bg)",
+                  padding: "4px 10px",
+                  borderRadius: 6,
+                  fontSize: "0.72rem",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                  zIndex: 9999,
+                  transform: "translateY(-50%)",
+                  marginTop: -16,
+                }}
+              >
+                Keluar
+              </div>
             </div>
+          </div>
           ) : (
             // Expanded: full user card
             <div style={{
@@ -235,7 +266,6 @@ export default function Sidebar({ activePage, setPage, collapsed, setCollapsed, 
               </div>
               <button
                 onClick={onLogout}
-                data-tip="Keluar"
                 style={{
                   background: "none", border: "none", cursor: "pointer",
                   color: "var(--text3)", display: "flex", padding: 2, transition: "color 0.15s",
