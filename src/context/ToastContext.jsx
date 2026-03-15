@@ -31,7 +31,7 @@ export function ToastProvider({ children }) {
             key={t.id}
             className="scale-in"
             style={{
-              background: t.type === "error" ? "var(--orange)" : "var(--accent)",
+              background: t.type === "error" ? "var(--highlight)" : "var(--accent)",
               color: t.type === "error" ? "#fff" : "var(--bg)",
               padding: "12px 18px",
               borderRadius: 12,
