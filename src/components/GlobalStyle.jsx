@@ -1,7 +1,7 @@
 const GlobalStyle = () => (
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap');
-    
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
@@ -184,7 +184,7 @@ const GlobalStyle = () => (
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
     ::selection { background: var(--mute); color: var(--accent); }
-    
+
     button, input, select, textarea { font-family: inherit; }
 
     @keyframes fadeUp {
@@ -219,7 +219,7 @@ const GlobalStyle = () => (
       min-height: 100vh;
       transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
     }
-      
+
     .float-anim { animation: floatY 4s ease-in-out infinite; }
 
     .breathe { animation: breathe 4s ease-in-out infinite; }
@@ -488,6 +488,25 @@ const GlobalStyle = () => (
         padding: 72px 16px 96px !important;
       }
 }
+
+/* ── NOTES PAGE RESPONSIVE ── */
+.notes-grid {
+  columns: 2 280px;
+  gap: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: filter 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .notes-grid {
+    columns: 1 !important;
+  }
+  .notes-form-bottom {
+    grid-template-columns: 1fr !important;
+  }
+}
+
   `}</style>
 );
 

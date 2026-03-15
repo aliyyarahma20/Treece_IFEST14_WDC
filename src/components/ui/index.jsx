@@ -63,8 +63,7 @@ export function Modal({ open, onClose, children, maxW = 480 }) {
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0,0,0,0.15)",
-        backdropFilter: "blur(2px)",
+        background: "transparent",
         zIndex: 1000,
         display: "flex",
         alignItems: "center",

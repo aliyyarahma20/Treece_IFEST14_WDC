@@ -138,8 +138,8 @@ export default function Dashboard({ tasks, setTasks }) {
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 3 }}>
-            {["M","S","R","K","J","S","M"].map((d) => (
-              <div key={d} style={{ textAlign: "center", fontSize: "0.68rem", color: "var(--text3)", fontWeight: 600, paddingBottom: 4 }}>{d}</div>
+            {["M","S","R","K","J","S","M"].map((d, i) => (
+              <div key={i} style={{ textAlign: "center", fontSize: "0.68rem", color: "var(--text3)", fontWeight: 600, paddingBottom: 4 }}>{d}</div>
             ))}
             {Array(firstDay).fill(null).map((_, i) => <div key={`e${i}`} />)}
             {Array(daysInMonth).fill(null).map((_, i) => {

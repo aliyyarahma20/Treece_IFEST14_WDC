@@ -89,7 +89,7 @@ export default function NotesPage() {
                   style={{ width: "100%", padding: "11px 14px", border: "1.5px solid var(--border)", borderRadius: 10, background: "var(--surface2)", color: "var(--text)", fontSize: "0.9rem", outline: "none", resize: "vertical", fontFamily: "'Outfit',sans-serif", lineHeight: 1.6 }}
                 />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "end" }}>
+              <div className="notes-form-bottom" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "end" }}>
                 <Select
                   label="Tag"
                   value={tag}
@@ -122,10 +122,10 @@ export default function NotesPage() {
           </div>
         )}
       </div>
-      <div style={{ filter: active ? "blur(2px)" : "none", transition: "filter 0.25s ease" }}>
+      <div >
 
       {/* Masonry grid */}
-      <div style={{ columns: "2 280px", gap: 14 }}>
+      <div className="notes-grid" style={{ filter: active ? "blur(3px)" : "none" }}>
         {filtered.map((n, i) => (
           <div
             key={n.id}
