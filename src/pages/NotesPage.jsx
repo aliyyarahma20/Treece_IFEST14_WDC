@@ -27,6 +27,15 @@ export default function NotesPage() {
   const [showForm, setShowForm] = useState(false);
   const [active,   setActive]   = useState(null);
   const [search,   setSearch]   = useState("");
+  const [activeTag, setActiveTag] = useState("All");
+  const [customTag, setCustomTag] = useState("");
+  const [showCustomTag, setShowCustomTag] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [editTag, setEditTag] = useState("");
+  const [editColor, setEditColor] = useState("lime");
+  const [customTags, setCustomTags] = useLocalStorage("sr_custom_tags", []);
   const { t } = useLanguage();
 
   const add = () => {
@@ -41,11 +50,27 @@ export default function NotesPage() {
 
   const del = (id) => { setNotes((p) => p.filter((n) => n.id !== id)); toast(t.notes.noteDeleted); };
 
-  const filtered = notes.filter(
-    (n) =>
+  const saveEdit = () => {
+    if (!editTitle.trim()) { toast(t.notes.titleRequired, "error"); return; }
+    setNotes(p => p.map(n => n.id === active.id
+      ? { ...n, title: editTitle.trim(), content: editContent, tag: editTag, color: editColor }
+      : n
+    ));
+    setActive(prev => ({ ...prev, title: editTitle.trim(), content: editContent, tag: editTag, color: editColor }));
+    setEditMode(false);
+    toast(t.notes.noteUpdated);
+  };
+
+  const allTags = ["All", ...new Set(notes.map((n) => n.tag))];
+
+  const filtered = notes.filter((n) => {
+    const matchSearch =
       n.title.toLowerCase().includes(search.toLowerCase()) ||
-      n.content.toLowerCase().includes(search.toLowerCase())
-  );
+      n.content.toLowerCase().includes(search.toLowerCase());
+    const matchTag = activeTag === "All" || n.tag === activeTag;
+    return matchSearch && matchTag;
+  });
+
 
   return (
     <div className="fade-up">
@@ -71,6 +96,31 @@ export default function NotesPage() {
           />
         </div>
 
+        {/* Tag Filter */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 16, overflowX: "auto", paddingBottom: 4 }}>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              style={{
+                padding: "6px 14px",
+                borderRadius: 99,
+                border: `1.5px solid ${activeTag === tag ? "var(--accent)" : "var(--border)"}`,
+                background: activeTag === tag ? "var(--mute)" : "transparent",
+                color: activeTag === tag ? "var(--accent)" : "var(--text3)",
+                fontSize: "0.78rem",
+                fontWeight: activeTag === tag ? 700 : 500,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "all 0.15s",
+                flexShrink: 0,
+              }}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
         {/* Form */}
         {showForm && (
           <div
@@ -90,13 +140,69 @@ export default function NotesPage() {
                 />
               </div>
               <div className="notes-form-bottom" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "end" }}>
+              <div>
                 <Select
                   label="Tag"
                   value={tag}
                   onChange={(e) => setTag(e.target.value)}
-                  options={t.notes.tags.map((tag) => ({ value: tag, label: tag }))}
+                  options={[...new Set([...t.notes.tags, ...customTags, ...notes.map(n => n.tag)])].map((tag) => ({ value: tag, label: tag }))}
                 />
-                <div>
+                {/* Custom Tag Input */}
+                <div style={{ marginTop: 6 }}>
+                  {!showCustomTag ? (
+                    <button
+                      onClick={() => setShowCustomTag(true)}
+                      style={{ background: "none", border: "none", cursor: "pointer", color: "var(--accent)", fontSize: "0.75rem", fontWeight: 600, padding: 0, display: "flex", alignItems: "center", gap: 4 }}
+                    >
+                      <Plus size={12} /> {t.notes.addCustomTag || "Tambah tag baru"}
+                    </button>
+                  ) : (
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <input
+                        value={customTag}
+                        onChange={(e) => setCustomTag(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && customTag.trim()) {
+                            const newTag = customTag.trim();
+                            setTag(newTag);
+                            if (!customTags.includes(newTag) && !t.notes.tags.includes(newTag)) {
+                              setCustomTags(p => [...p, newTag]);
+                            }
+                            setShowCustomTag(false);
+                            setCustomTag("");
+                          }
+                        }}
+                        placeholder={t.notes.newTagPlaceholder}
+                        autoFocus
+                        style={{ flex: 1, padding: "7px 10px", border: "1.5px solid var(--accent)", borderRadius: 8, background: "var(--surface2)", color: "var(--text)", fontSize: "0.82rem", outline: "none" }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (customTag.trim()) {
+                            const newTag = customTag.trim();
+                            setTag(newTag);
+                            if (!customTags.includes(newTag) && !t.notes.tags.includes(newTag)) {
+                              setCustomTags(p => [...p, newTag]);
+                            }
+                            setShowCustomTag(false);
+                            setCustomTag("");
+                          }
+                        }}
+                        style={{ padding: "7px 12px", background: "var(--accent)", color: "var(--bg)", border: "none", borderRadius: 8, cursor: "pointer", fontSize: "0.82rem", fontWeight: 600 }}
+                      >
+                        OK
+                      </button>
+                      <button
+                        onClick={() => { setShowCustomTag(false); setCustomTag(""); }}
+                        style={{ padding: "7px 10px", background: "none", border: "1.5px solid var(--border)", borderRadius: 8, cursor: "pointer", color: "var(--text3)" }}
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
                   <label style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--text2)", textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: 8 }}>{t.notes.colorLabel}</label>
                   <div style={{ display: "flex", gap: 8 }}>
                     {["lime", "peach", "orange"].map((c) => (
@@ -169,25 +275,81 @@ export default function NotesPage() {
       </div>
 
       {/* Detail Modal */}
-      <Modal open={!!active} onClose={() => setActive(null)} maxW={520}>
+      <Modal open={!!active} onClose={() => { setActive(null); setEditMode(false); }} maxW={520}>
         {active && (
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.25rem", color: "var(--text)" }}>
-                {active.title}
+                {editMode ? t.notes.editNote : active.title}
               </div>
-              <button onClick={() => setActive(null)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text3)", display: "flex" }}>
+              <button onClick={() => { setActive(null); setEditMode(false); }} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text3)", display: "flex" }}>
                 <X size={18} />
               </button>
             </div>
-            <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-              <Badge color="lime">{active.tag}</Badge>
-              <Badge color="muted">{active.createdAt}</Badge>
-            </div>
-            <div style={{ height: 1, background: "var(--border)", marginBottom: 16 }} />
-            <div style={{ fontSize: "0.9rem", color: "var(--text2)", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>
-              {active.content || t.notes.noContent}
-            </div>
+
+            {!editMode ? (
+              <>
+                <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                  <Badge color="lime">{active.tag}</Badge>
+                  <Badge color="muted">{active.createdAt}</Badge>
+                </div>
+                <div style={{ height: 1, background: "var(--border)", marginBottom: 16 }} />
+                <div style={{ fontSize: "0.9rem", color: "var(--text2)", lineHeight: 1.8, whiteSpace: "pre-wrap", marginBottom: 20 }}>
+                  {active.content || t.notes.noContent}
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button onClick={() => {
+                    setEditTitle(active.title);
+                    setEditContent(active.content);
+                    setEditTag(active.tag);
+                    setEditColor(active.color);
+                    setEditMode(true);
+                  }}>
+                    {t.notes.editBtn}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: "grid", gap: 12, marginBottom: 16 }}>
+                  <Input label={t.notes.noteTitle} value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder={t.notes.titlePlaceholder} icon={<Bookmark size={15} />} />
+                  <div>
+                    <label style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--text2)", textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: 6 }}>{t.notes.content}</label>
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      rows={5}
+                      style={{ width: "100%", padding: "11px 14px", border: "1.5px solid var(--border)", borderRadius: 10, background: "var(--surface2)", color: "var(--text)", fontSize: "0.9rem", outline: "none", resize: "vertical", fontFamily: "'Outfit',sans-serif", lineHeight: 1.6 }}
+                    />
+                  </div>
+                  <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                    <Select
+                      label="Tag"
+                      value={editTag}
+                      onChange={(e) => setEditTag(e.target.value)}
+                      options={[...new Set([...t.notes.tags, ...customTags, ...notes.map(n => n.tag)])].map((tag) => ({ value: tag, label: tag }))}
+                      style={{ flex: 1 }}
+                    />
+                    <div>
+                      <label style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--text2)", textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: 8 }}>{t.notes.colorLabel}</label>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        {["lime", "peach", "orange"].map((c) => (
+                          <button
+                            key={c}
+                            onClick={() => setEditColor(c)}
+                            style={{ width: 28, height: 28, borderRadius: 8, background: COLOR_BG[c], border: `2px solid ${editColor === c ? COLOR_BORDER[c] : "transparent"}`, cursor: "pointer", transition: "all 0.15s" }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                  <Button variant="ghost" onClick={() => setEditMode(false)}>{t.notes.cancelBtn}</Button>
+                  <Button onClick={saveEdit}>{t.notes.saveEditBtn}</Button>
+                </div>
+              </>
+            )}
           </div>
         )}
       </Modal>

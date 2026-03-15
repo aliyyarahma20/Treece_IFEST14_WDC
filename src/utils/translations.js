@@ -265,6 +265,12 @@ export const translations = {
       noteDeleted: "Note deleted",
       titleRequired: "Note title is required!",
       notesCount: (n) => `${n} note${n === 1 ? "" : "s"} saved`,
+      editNote: "Edit Note",
+      editBtn: "Edit",
+      saveEditBtn: "Save",
+      addCustomTag: "Add new tag",
+      newTagPlaceholder: "New tag name...",
+      noteUpdated: "Note updated!",
       tags: ["Course", "Tips", "Project", "Research", "Personal"],
     },
     // ── Pomodoro ──
@@ -373,7 +379,7 @@ export const translations = {
 
     nav_items: {
       dashboard: "Beranda",
-      todo: "Manajemen Tugas",
+      todo: "Tugas",
       target: "Target",
       recap: "Rekap",
       notes: "Catatan",
@@ -558,6 +564,12 @@ export const translations = {
       noteDeleted: "Catatan dihapus",
       titleRequired: "Judul catatan wajib diisi!",
       notesCount: (n) => `${n} catatan tersimpan`,
+      editNote: "Ubah Catatan",
+      editBtn: "Ubah",
+      saveEditBtn: "Simpan",
+      addCustomTag: "Tambah tag baru",
+      newTagPlaceholder: "Nama tag baru...",
+      noteUpdated: "Catatan diperbarui!",
       tags: ["Kuliah", "Tips", "Proyek", "Riset", "Pribadi"],
     },
 

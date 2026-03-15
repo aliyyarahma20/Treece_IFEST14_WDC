@@ -73,7 +73,7 @@ export default function SettingsPage() {
 
   const isMobile = winWidth <= 768;
 
-  // Theme grid columns: 
+  // Theme grid columns:
   //   mobile panel (≤580px) → 1 col horizontal card
   //   tablet panel (581–768px) → 2 col
   //   desktop content area → 3 col
@@ -294,7 +294,7 @@ export default function SettingsPage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 10, color: "var(--text)" }}>
           {[
-            { code: "en", label: { en: "English",   id: "Inggris"   }, sub: "English",          flag: "🇺🇸" },
+            { code: "en", label: { en: "English",   id: "Inggris"   }, sub: "English",          flag: "EN" },
             { code: "id", label: { en: "Indonesian", id: "Indonesia" }, sub: "Bahasa Indonesia", flag: "🇮🇩" },
           ].map(l => {
             const active = lang === l.code;

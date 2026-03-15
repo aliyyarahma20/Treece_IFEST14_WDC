@@ -68,7 +68,8 @@ export function Modal({ open, onClose, children, maxW = 480 }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: 16,
+        padding: "72px 16px 24px",
+        overflowY: "auto",
       }}
     >
       <div
@@ -82,6 +83,9 @@ export function Modal({ open, onClose, children, maxW = 480 }) {
           maxWidth: maxW,
           boxShadow: "var(--shadow-lg)",
           border: "1px solid var(--border)",
+          maxHeight: "80vh",
+          overflowY: "auto",
+          margin: "auto",
         }}
       >
         {children}
