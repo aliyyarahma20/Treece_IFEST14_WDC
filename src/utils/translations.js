@@ -197,7 +197,7 @@ export const translations = {
     },
 
     // ── Todo ──
-    todo: {
+     todo: {
       title: "Task Manager",
       addTask: "Add Task",
       taskName: "Task name",
@@ -212,7 +212,30 @@ export const translations = {
       statusDone: "Completed",
       noTasks: "No tasks found.",
       deleteConfirm: "Delete this task?",
+      editTask: "Edit Task",         
+      saveChanges: "Save Changes",   
+      reminderOptional: "Reminder (optional)",          
+      verifyQuestion: "Verification Question (optional)", 
+      taskNamePlaceholder: "e.g. Complete Pemweb report...", 
+      reminderPlaceholder: "e.g. How much progress have you made?", 
+      answerLabel: "Your answer",    
+      answerPlaceholder: "Write your answer before dismissing...", 
+      addedSuccess: "Task added successfully!", 
+      updatedSuccess: "Task updated!", 
+      deletedSuccess: "Task deleted",  
+      calendarSuccess: "Task added + synced to Google Calendar! 🗓️", 
+      calendarFail: "Task added, but calendar sync failed.", 
+      nameRequired: "Task name is required!", 
+      answerRequired: "Please answer first!", 
+      reminderDone: "Reminder done! Keep it up! 💪", 
+      pendingFilter: "Pending",      
+      alreadyDone: "Have you worked on this?", 
+      catAssignment: "Assignment",  
+      catCourse: "Course",       
+      catProject: "Project" ,       
+      catPersonal: "Personal"       
     },
+
 
 
     // ── Recap ──
@@ -499,7 +522,7 @@ export const translations = {
     },
 
     todo: {
-      title: "Task Manager",
+      title: "Manajemen Tugas",
       addTask: "Tambah Tugas",
       taskName: "Nama tugas",
       deadline: "Deadline",
@@ -513,7 +536,31 @@ export const translations = {
       statusDone: "Selesai",
       noTasks: "Tidak ada tugas ditemukan.",
       deleteConfirm: "Hapus tugas ini?",
+      editTask: "Edit Tugas",
+      saveChanges: "Simpan Perubahan",
+      reminderOptional: "Reminder (opsional)",
+      verifyQuestion: "Pertanyaan Verifikasi (opsional)",
+      taskNamePlaceholder: "cth: Kerjakan laporan Pemweb...",
+      reminderPlaceholder: "cth: Sudah berapa persen kamu mengerjakannya?",
+      answerLabel: "Jawaban kamu",
+      answerPlaceholder: "Tulis jawabanmu dulu sebelum dismiss...",
+      addedSuccess: "Tugas berhasil ditambahkan!",
+      updatedSuccess: "Tugas berhasil diperbarui!",
+      deletedSuccess: "Tugas dihapus",
+      calendarSuccess: "Tugas ditambahkan + tersync ke Google Calendar! 🗓️",
+      calendarFail: "Tugas ditambahkan, tapi gagal sync kalender.",
+      nameRequired: "Nama tugas tidak boleh kosong!",
+      answerRequired: "Jawab dulu pertanyaannya!",
+      reminderDone: "Reminder selesai! Tetap semangat! 💪",
+      pendingFilter: "Belum",
+      alreadyDone: "Sudah dikerjakan?",
+      catAssignment: "Tugas",  
+      catCourse: "Kuliah",       
+      catProject: "Proyek" ,       
+      catPersonal: "Pribadi" 
+
     },
+
 
 
     recap: {

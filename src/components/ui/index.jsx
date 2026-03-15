@@ -25,7 +25,7 @@ const BADGE_COLORS = {
   accent: { bg: "var(--mute)",    color: "var(--accent)"   },
   orange: { bg: "var(--mute2)",   color: "var(--highlight)" },
   muted:  { bg: "var(--surface2)", color: "var(--text3)"   },
-  peach:  { bg: "var(--mute2)",   color: "var(--highlight)" },
+  peach:  { bg: "var(--mute2)",   color: "var(--highlight2)" },
 };
 
 export function Badge({ children, color = "lime" }) {
