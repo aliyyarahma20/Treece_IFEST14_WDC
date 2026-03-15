@@ -213,6 +213,13 @@ const GlobalStyle = () => (
       50%       { transform: translateY(-10px); }
     }
 
+    .app-main {
+      margin-left: var(--sidebar-width);
+      padding: 28px 32px;
+      min-height: 100vh;
+      transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+      
     .float-anim { animation: floatY 4s ease-in-out infinite; }
 
     .breathe { animation: breathe 4s ease-in-out infinite; }
@@ -291,8 +298,8 @@ const GlobalStyle = () => (
       transform: rotate(45deg);
     }
 
-    @media (max-width: 592px) { .hide-mobile { display: none !important; } }
-    @media (min-width: 593px) { .show-mobile { display: none !important; } }
+    @media (max-width: 768px) { .hide-mobile { display: none !important; } }
+    @media (min-width: 769px) { .show-mobile { display: none !important; } }
 
     /* ── RESPONSIVE GRID UTILITIES ── */
     .grid-2col {
@@ -476,11 +483,11 @@ const GlobalStyle = () => (
     }
 
     @media (max-width: 768px) {
-      main {
+      .app-main {
         margin-left: 0 !important;
-        padding: 64px 16px 96px !important; /* 64px topbar, 80px bottom nav */
+        padding: 72px 16px 96px !important;
       }
-    }
+}
   `}</style>
 );
 

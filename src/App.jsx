@@ -100,18 +100,9 @@ function AppContent() {
             onLogout={handleLogout}
           />
           <Topbar page={page} user={user} onLogout={handleLogout} />
-          <main
-            style={{
-              marginLeft: sidebarCollapsed ? 64 : 225,
-              padding: "28px 32px",
-              minHeight: "100vh",
-            }}
-          >
-            <style>{`
-              @media (max-width: 768px) {
-                main { margin-left: 0 !important; padding: 72px 16px 28px !important; }
-              }
-            `}</style>
+          <main className="app-main" style={{
+            '--sidebar-width': sidebarCollapsed ? '64px' : '225px',
+          }}>
             {PAGE_MAP[page]}
           </main>
         </div>
