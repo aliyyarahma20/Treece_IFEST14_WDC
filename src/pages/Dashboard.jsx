@@ -11,7 +11,7 @@ function StatCard({ label, value, sub, icon, accent, delay = 0 }) {
       style={{ animationDelay: `${delay}ms` }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-        <div style={{ color: "var(--text2)", fontSize: "0.78rem", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.4px" }}>
+        <div style={{ color: "var(--accent)", fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4px" }}>
           {label}
         </div>
         <div style={{ color: accent, opacity: 0.75 }}>{icon}</div>
@@ -24,11 +24,13 @@ function StatCard({ label, value, sub, icon, accent, delay = 0 }) {
   );
 }
 
-export default function Dashboard({ tasks }) {
+export default function Dashboard({ tasks, setTasks }) {
   const today = new Date();
   const done  = tasks.filter((t) => t.done).length;
   const high  = tasks.filter((t) => t.priority === "high" && !t.done).length;
   const { isVisible, prevMonth, prevYear, monthLabel } = useWrappedVisibility();
+  const toggleDone = (id) =>
+    setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t));
 
   const wrappedData = {
     monthLabel,
@@ -87,19 +89,19 @@ export default function Dashboard({ tasks }) {
 
       {/* Stat Cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 14, marginBottom: 24 }}>
-        <StatCard label="Tugas Selesai"   value={done}    sub={`dari ${tasks.length} total`}          icon={<CheckCircle2 size={20}/>} accent="var(--accent)" delay={0}  />
+        <StatCard label="Tugas Selesai"   value={done}    sub={`dari ${tasks.length} total`}          icon={<CheckCircle2 size={20}/>} accent="var(--highlight)" delay={0}  />
         <StatCard label="Prioritas Tinggi" value={high}   sub="perlu segera dikerjakan"               icon={<AlertCircle  size={20}/>} accent="var(--highlight)" delay={80} />
-        <StatCard label="Streak"           value="5"      sub="hari berturut-turut"                   icon={<Flame        size={20}/>} accent="var(--highlight2)"  delay={160}/>
-        <StatCard label="Jam Belajar"      value="3.5h"   sub="hari ini"                              icon={<Clock        size={20}/>} accent="var(--lime)"   delay={240}/>
+        <StatCard label="Streak"           value="5"      sub="hari berturut-turut"                   icon={<Flame        size={20}/>} accent="red"  delay={160}/>
+        <StatCard label="Jam Belajar"      value="3.5h"   sub="hari ini"                              icon={<Clock        size={20}/>} accent="var(--highlight)"   delay={240}/>
       </div>
 
       {/* Charts */}
       <div className="grid-2col" style={{ gap: 16, marginBottom: 16 }}>
         {/* Weekly bar chart */}
         <Card>
-          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center", color:"var(--accent)" }}>
             Aktivitas Minggu Ini
-            <span style={{ fontSize: "0.75rem", color: "var(--text3)", fontFamily: "'Outfit',sans-serif", fontWeight: 400 }}>Jam belajar</span>
+            <span style={{ fontSize: "0.75rem", color: "var(--text3)", fontWeight: 400 }}>Jam belajar</span>
           </div>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 100 }}>
             {weekActivity.map((w, i) => {
@@ -128,9 +130,9 @@ export default function Dashboard({ tasks }) {
 
         {/* Mini calendar */}
         <Card>
-          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center", color: "var(--accent)" }}>
             {MONTHS[today.getMonth()]} {today.getFullYear()}
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.72rem", color: "var(--text3)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.72rem", color: "var(--text3)"}}>
               <div style={{ width: 8, height: 8, borderRadius: 2, background: "var(--accent)" }} />
               Produktif
             </div>
@@ -170,9 +172,9 @@ export default function Dashboard({ tasks }) {
       {/* Recent + Targets */}
       <div className="grid-2col" style={{ gap: 16 }}>
         <Card>
-          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between" }}>
+          <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", color: "var(--accent)"}}>
             Tugas Terkini
-            <span style={{ fontSize: "0.78rem", color: "var(--text3)", fontFamily: "'Outfit',sans-serif", fontWeight: 400 }}>
+            <span style={{ fontSize: "0.78rem", color: "var(--text3)", fontWeight: 400 }}>
               {tasks.filter((t) => !t.done).length} belum selesai
             </span>
           </div>
@@ -180,11 +182,13 @@ export default function Dashboard({ tasks }) {
             {tasks.slice(0, 5).map((t) => (
               <div
                 key={t.id}
+                onClick={() => toggleDone(t.id)}
                 style={{
                   display: "flex", alignItems: "center", gap: 10,
                   padding: "8px 10px",
                   background: t.done ? "var(--surface2)" : "transparent",
                   borderRadius: 8, opacity: t.done ? 0.5 : 1,
+                  cursor: "pointer"
                 }}
               >
                 {t.done
@@ -205,10 +209,10 @@ export default function Dashboard({ tasks }) {
         </Card>
 
         <Card>
-          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: "0.95rem", marginBottom: 14 }}>
+          <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, color: "var(--accent)" }}>
             Progress Target
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14, fontWeight: 700 }}>
             {[
               { label: "Jam Belajar",      current: 24,    goal: 30, color: "var(--accent)"  },
               { label: "Tugas Selesai",    current: done,  goal: 20, color: "var(--highlight)"  },

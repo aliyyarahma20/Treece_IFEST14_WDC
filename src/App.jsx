@@ -75,7 +75,7 @@ function AppContent() {
   };
 
   const PAGE_MAP = {
-    dashboard: <Dashboard    tasks={tasks} />,
+    dashboard: <Dashboard tasks={tasks} setTasks={setTasks} />,
     todo: <TodoPage tasks={tasks} setTasks={setTasks} user={user} />,
     target:    <TargetPage   />,
     recap:     <RecapPage    />,

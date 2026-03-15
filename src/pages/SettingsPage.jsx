@@ -120,7 +120,6 @@ export default function SettingsPage() {
                 borderRadius: 10, cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 9,
                 color: active ? "var(--accent)" : "var(--text2)",
-                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.84rem", fontWeight: active ? 600 : 400,
                 transition: "all 0.15s", textAlign: "left",
                 position: "relative",
@@ -148,7 +147,7 @@ export default function SettingsPage() {
           {activeSection === "theme" && (
             <div>
               <div style={{ marginBottom: 22 }}>
-                <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "1rem", color: "var(--text)", marginBottom: 4 }}>
+                <div style={{fontWeight: 700, fontSize: "1rem", color: "var(--text)", marginBottom: 4 }}>
                   {lang === "id" ? "Pilih Tema" : "Choose Theme"}
                 </div>
                 <div style={{ fontSize: "0.8rem", color: "var(--text2)" }}>
@@ -275,7 +274,7 @@ export default function SettingsPage() {
                           color: active ? "var(--accent)" : "var(--text)",
                           lineHeight: 1.2, marginBottom: 4,
                         }}>{f.sample}</div>
-                        <div style={{ fontSize: "0.72rem", color: "var(--text3)", fontFamily: "'Outfit', sans-serif" }}>
+                        <div style={{ fontSize: "0.72rem", color: "var(--text3)"}}>
                           {f.label}
                         </div>
                       </div>

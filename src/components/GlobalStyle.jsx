@@ -1,7 +1,7 @@
 const GlobalStyle = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=Lora:wght@400;500;600&family=Caveat:wght@400;500;600;700&family=Nunito:wght@300;400;500;600&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap');
+    
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
@@ -40,32 +40,32 @@ const GlobalStyle = () => (
   }
 
   /* ── LAVENDER SKY ── */
-  [data-theme="lavender-sky"] {
-    --bg:          #F8F6F5;
-    --bg2:         #FFFFFF;
-    --bg3:         #EEECEA;
-    --surface:     #FFFFFF;
-    --surface2:    #CBCEEA;
-    --border:      rgba(93,93,90,0.12);
-    --border2:     rgba(93,93,90,0.06);
-    --text:        #5D5D5A;
-    --text2:       rgba(93,93,90,0.65);
-    --text3:       rgba(93,93,90,0.38);
-    --accent:      #5D5D5A;
-    --accent2:     #3a3a38;
-    --highlight:   #CDEBF1;
-    --highlight2:  #CBCEEA;
-    --mute:        rgba(205,235,241,0.4);
-    --mute2:       rgba(203,206,234,0.3);
-    --shadow:      0 2px 16px rgba(93,93,90,0.08);
-    --shadow-lg:   0 8px 40px rgba(93,93,90,0.12);
-    --is-dark:     0;
-    --logo-sub: #CDEBF1;
-    --hero-bg: linear-gradient(135deg, #3a3a60 0%, #25254a 60%, #141428 100%);
-    --hero-text: #CDEBF1;
-    --hero-sub: rgba(205,235,241,0.75);
-    --hero-label: rgba(203,206,234,0.85);
-  }
+ [data-theme="lavender-sky"] {
+  --bg:          #F5F4F9;   /* putih sedikit ungu, lebih cohesive */
+  --bg2:         #FFFFFF;
+  --bg3:         #ECEAF4;
+  --surface:     #FFFFFF;
+  --surface2:    #DDD9F0;   /* ungu muda lebih rich */
+  --border:      rgba(100,90,140,0.12);
+  --border2:     rgba(100,90,140,0.06);
+  --text:        #3D3A52;   /* ungu gelap, lebih karakteristik */
+  --text2:       rgba(61,58,82,0.65);
+  --text3:       rgba(61,58,82,0.38);
+  --accent:      #6B5FAD;   /* ungu medium — jadi lebih hidup */
+  --accent2:     #8370C4;
+  --highlight:   #5B9BD4;   /* biru medium kontras */
+  --highlight2:  #A89ED6;   /* ungu muda soft */
+  --mute:        rgba(107,95,173,0.1);
+  --mute2:       rgba(91,155,212,0.12);
+  --shadow:      0 2px 16px rgba(100,90,140,0.1);
+  --shadow-lg:   0 8px 40px rgba(100,90,140,0.15);
+  --is-dark:     0;
+  --logo-sub:    #5B9BD4;
+  --hero-bg:     linear-gradient(135deg, #3a3a60 0%, #25254a 60%, #141428 100%);
+  --hero-text:   #DDD9F0;
+  --hero-sub:    rgba(221,217,240,0.75);
+  --hero-label:  rgba(168,158,214,0.85);
+}
 
   /* ── ROSE PETAL ── */
   [data-theme="rose-petal"] {
@@ -106,12 +106,12 @@ const GlobalStyle = () => (
     --border:      rgba(232,237,242,0.1);
     --border2:     rgba(232,237,242,0.05);
     --text:        #E8EDF2;
-    --text2:       rgba(232,237,242,0.6);
+    --text2:       rgba(232,237,242,  0.6);
     --text3:       rgba(232,237,242,0.35);
     --accent:      #4A9EBF;
     --accent2:     #6ab4d0;
-    --highlight:   #4A9EBF;
-    --highlight2:  #243d54;
+    --highlight:   #63C5A8;
+    --highlight2:  #a3cdf4;
     --mute:        rgba(74,158,191,0.15);
     --mute2:       rgba(74,158,191,0.08);
     --shadow:      0 2px 16px rgba(0,0,0,0.3);
@@ -138,8 +138,8 @@ const GlobalStyle = () => (
     --text3:       rgba(255,236,205,0.35);
     --accent:      #C4956A;
     --accent2:     #d4a87a;
-    --highlight:   #C4956A;
-    --highlight2:  #574b45;
+    --highlight:   #E8845A;
+    --highlight2:  #f5c4ac;
     --mute:        rgba(196,149,106,0.15);
     --mute2:       rgba(196,149,106,0.08);
     --shadow:      0 2px 16px rgba(0,0,0,0.3);
@@ -166,8 +166,8 @@ const GlobalStyle = () => (
     --text3:       rgba(232,234,235,0.35);
     --accent:      #8FAEC2;
     --accent2:     #a5c2d4;
-    --highlight:   #8FAEC2;
-    --highlight2:  #555555;
+    --highlight:   #7EC8A0;
+    --highlight2:  #e3dbec;
     --mute:        rgba(143,174,194,0.15);
     --mute2:       rgba(143,174,194,0.08);
     --shadow:      0 2px 16px rgba(0,0,0,0.3);
@@ -184,8 +184,8 @@ const GlobalStyle = () => (
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
     ::selection { background: var(--mute); color: var(--accent); }
-
-    input, select, textarea { font-family: 'Outfit', sans-serif; }
+    
+    button, input, select, textarea { font-family: inherit; }
 
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(16px); }
