@@ -1,5 +1,15 @@
 // WrappedSwipeCards.jsx
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
+
+function useIsMobile(bp = 768) {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= bp);
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth <= bp);
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, [bp]);
+  return isMobile;
+}
 
 const TOTAL = 6;
 
@@ -253,7 +263,6 @@ if (typeof document !== "undefined" && !document.getElementById("wrapped-style")
     /* ── TABLET (≤ 768px): stack jadi 1 kolom ── */
     @media (max-width: 768px) {
       .wrapped-grid {
-        grid-template-columns: 1fr !important;
         gap: 24px !important;
       }
       .wrapped-left {
@@ -311,6 +320,9 @@ if (typeof document !== "undefined" && !document.getElementById("wrapped-style")
 
 // ══ MAIN COMPONENT ══
 export default function WrappedSwipeCards({ month, year, data }) {
+
+  const isMobile = useIsMobile(900); // ← tambah ini
+
   const [current,    setCurrent]    = useState(0);
   const [dismissed,  setDismissed]  = useState(false);
   const [collapsing, setCollapsing] = useState(false);
@@ -361,7 +373,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
         className="wrapped-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0,1fr) 360px",
+          gridTemplateColumns: isMobile ? "1fr" : "minmax(0,1fr) 360px",
           gap: 32,
           alignItems: "center",
         }}
@@ -375,10 +387,11 @@ export default function WrappedSwipeCards({ month, year, data }) {
             flexDirection: "column",
             justifyContent: "space-between",
             minWidth: 0,
-            // ⚠️ Hapus fixed height — pakai min-height aja biar bisa shrink di mobile
-            minHeight: 460,
+            overflow: "hidden",
+            minHeight: isMobile ? "auto" : 460, // ← ubah
             height: "auto",
-            paddingRight: 8,
+            order: isMobile ? 2 : 0,           // ← ubah, biar deck tampil duluan di mobile
+            paddingRight: isMobile ? 0 : 8,    // ← ubah
             gap: 24,
           }}
         >
@@ -398,7 +411,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
               className="wrapped-headline"
               style={{
                 fontFamily: "'Syne',sans-serif",
-                fontSize: "3rem",
+                fontSize: "clamp(1.6rem, 6vw, 3rem)",
                 fontWeight: 800,
                 lineHeight: 1.1,
                 letterSpacing: "-0.5px",
@@ -474,8 +487,9 @@ export default function WrappedSwipeCards({ month, year, data }) {
             flexDirection: "column",
             alignItems: "center",
             gap: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
+            order: isMobile ? 1 : 0,           // ← deck tampil di atas di mobile
+            paddingLeft: isMobile ? 0 : 16,    // ← ubah
+            paddingRight: isMobile ? 0 : 16,
           }}
         >
           {/* Deck wrapper — overflow visible biar fan effect ga ke-clip */}
