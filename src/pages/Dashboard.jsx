@@ -3,6 +3,7 @@ import { Card, ProgressBar } from "../components/ui/index.jsx";
 import { MONTHS, WEEKDAYS } from "../utils/helpers.js";
 import { useWrappedVisibility } from "../utils/wrappedVisibility.js";
 import WrappedSwipeCards from "../components/ui/wrapped.jsx";
+import { useLanguage } from "../context/LanguageContext.jsx";
 
 function StatCard({ label, value, sub, icon, accent, delay = 0 }) {
   return (
@@ -31,6 +32,7 @@ export default function Dashboard({ tasks, setTasks }) {
   const { isVisible, prevMonth, prevYear, monthLabel } = useWrappedVisibility();
   const toggleDone = (id) =>
     setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  const { t } = useLanguage();
 
   const wrappedData = {
     monthLabel,
@@ -51,8 +53,13 @@ export default function Dashboard({ tasks, setTasks }) {
   };
 
   const weekActivity = [
-    { d: "Sen", h: 2.5 }, { d: "Sel", h: 4 }, { d: "Rab", h: 6 },
-    { d: "Kam", h: 3   }, { d: "Jum", h: 5 }, { d: "Sab", h: 1.5 }, { d: "Min", h: 2 },
+    { d: t.dashboard.weekDays[0], h: 2.5 },
+    { d: t.dashboard.weekDays[1], h: 4   },
+    { d: t.dashboard.weekDays[2], h: 6   },
+    { d: t.dashboard.weekDays[3], h: 3   },
+    { d: t.dashboard.weekDays[4], h: 5   },
+    { d: t.dashboard.weekDays[5], h: 1.5 },
+    { d: t.dashboard.weekDays[6], h: 2   },
   ];
   const maxH = Math.max(...weekActivity.map((w) => w.h));
 
@@ -65,10 +72,10 @@ export default function Dashboard({ tasks, setTasks }) {
       {/* Greeting */}
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "1.6rem", color: "var(--text)", letterSpacing: "-0.5px", marginBottom: 4 }}>
-          Selamat datang kembali!
+          {t.dashboard.welcomeBack}
         </h1>
         <div style={{ fontSize: "0.88rem", color: "var(--text3)" }}>
-          {WEEKDAYS[today.getDay()]}, {today.getDate()} {MONTHS[today.getMonth()]} {today.getFullYear()}
+          {t.dashboard.weekdays[today.getDay()]}, {today.getDate()} {t.dashboard.months[today.getMonth()]} {today.getFullYear()}
         </div>
       </div>
 
@@ -89,10 +96,10 @@ export default function Dashboard({ tasks, setTasks }) {
 
       {/* Stat Cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 14, marginBottom: 24 }}>
-        <StatCard label="Tugas Selesai"   value={done}    sub={`dari ${tasks.length} total`}          icon={<CheckCircle2 size={20}/>} accent="var(--highlight)" delay={0}  />
-        <StatCard label="Prioritas Tinggi" value={high}   sub="perlu segera dikerjakan"               icon={<AlertCircle  size={20}/>} accent="var(--highlight)" delay={80} />
-        <StatCard label="Streak"           value="5"      sub="hari berturut-turut"                   icon={<Flame        size={20}/>} accent="red"  delay={160}/>
-        <StatCard label="Jam Belajar"      value="3.5h"   sub="hari ini"                              icon={<Clock        size={20}/>} accent="var(--highlight)"   delay={240}/>
+        <StatCard label={t.dashboard.tasksDone}    value={done}   sub={t.dashboard.tasksDoneSub(tasks.length)}  icon={<CheckCircle2 size={20}/>} accent="var(--highlight)" delay={0}  />
+        <StatCard label={t.dashboard.highPriority} value={high}   sub={t.dashboard.highPrioritySub}             icon={<AlertCircle  size={20}/>} accent="var(--highlight)" delay={80} />
+        <StatCard label={t.dashboard.streak}       value="5"      sub={t.dashboard.streakSub}                   icon={<Flame        size={20}/>} accent="red"  delay={160}/>
+        <StatCard label={t.dashboard.studyHours}   value="3.5h"   sub={t.dashboard.studyHoursSub}               icon={<Clock        size={20}/>} accent="var(--highlight)"   delay={240}/>
       </div>
 
       {/* Charts */}
@@ -100,8 +107,8 @@ export default function Dashboard({ tasks, setTasks }) {
         {/* Weekly bar chart */}
         <Card>
           <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center", color:"var(--accent)" }}>
-            Aktivitas Minggu Ini
-            <span style={{ fontSize: "0.75rem", color: "var(--text3)", fontWeight: 400 }}>Jam belajar</span>
+            {t.dashboard.weeklyActivity}
+            <span style={{ fontSize: "0.75rem", color: "var(--text3)", fontWeight: 400 }}>{t.dashboard.studyHoursLabel}</span>
           </div>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 100 }}>
             {weekActivity.map((w, i) => {
@@ -131,14 +138,14 @@ export default function Dashboard({ tasks, setTasks }) {
         {/* Mini calendar */}
         <Card>
           <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center", color: "var(--accent)" }}>
-            {MONTHS[today.getMonth()]} {today.getFullYear()}
+            {t.dashboard.months[today.getMonth()]} {today.getFullYear()}
             <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.72rem", color: "var(--text3)"}}>
               <div style={{ width: 8, height: 8, borderRadius: 2, background: "var(--accent)" }} />
-              Produktif
+              {t.dashboard.productive}
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 3 }}>
-            {["M","S","R","K","J","S","M"].map((d, i) => (
+            {t.dashboard.calendarDays.map((d, i) => (
               <div key={i} style={{ textAlign: "center", fontSize: "0.68rem", color: "var(--text3)", fontWeight: 600, paddingBottom: 4 }}>{d}</div>
             ))}
             {Array(firstDay).fill(null).map((_, i) => <div key={`e${i}`} />)}
@@ -173,9 +180,9 @@ export default function Dashboard({ tasks, setTasks }) {
       <div className="grid-2col" style={{ gap: 16 }}>
         <Card>
           <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, display: "flex", justifyContent: "space-between", color: "var(--accent)"}}>
-            Tugas Terkini
+            {t.dashboard.recentTasks}
             <span style={{ fontSize: "0.78rem", color: "var(--text3)", fontWeight: 400 }}>
-              {tasks.filter((t) => !t.done).length} belum selesai
+              {t.dashboard.pendingTasks(tasks.filter((task) => !task.done).length)}
             </span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -202,7 +209,7 @@ export default function Dashboard({ tasks, setTasks }) {
             ))}
             {!tasks.length && (
               <div style={{ textAlign: "center", color: "var(--text3)", fontSize: "0.85rem", padding: "16px 0" }}>
-                Belum ada tugas
+                {t.dashboard.noTasks}
               </div>
             )}
           </div>
@@ -210,13 +217,13 @@ export default function Dashboard({ tasks, setTasks }) {
 
         <Card>
           <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 14, color: "var(--accent)" }}>
-            Progress Target
+            {t.dashboard.targetProgress}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 14, fontWeight: 700 }}>
             {[
-              { label: "Jam Belajar",      current: 24,    goal: 30, color: "var(--accent)"  },
-              { label: "Tugas Selesai",    current: done,  goal: 20, color: "var(--highlight)"  },
-              { label: "Hari Produktif",   current: 12,    goal: 20, color: "var(--highlight2)"   },
+              { label: t.dashboard.studyHoursTarget, current: 24,   goal: 30, color: "var(--accent)"    },
+              { label: t.dashboard.tasksDoneTarget,  current: done, goal: 20, color: "var(--highlight)"  },
+              { label: t.dashboard.productiveDays,   current: 12,   goal: 20, color: "var(--highlight2)" },
             ].map((t, i) => (
               <div key={i}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: "0.82rem" }}>

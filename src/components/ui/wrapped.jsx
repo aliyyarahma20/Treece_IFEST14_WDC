@@ -1,15 +1,17 @@
 // WrappedSwipeCards.jsx
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useLanguage } from "../../context/LanguageContext.jsx";
 
 function useIsMobile(bp = 768) {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth <= bp);
-  useEffect(() => {
-    const fn = () => setIsMobile(window.innerWidth <= bp);
-    window.addEventListener("resize", fn);
-    return () => window.removeEventListener("resize", fn);
-  }, [bp]);
-  return isMobile;
-}
+    useEffect(() => {
+      const fn = () => setIsMobile(window.innerWidth <= bp);
+      window.addEventListener("resize", fn);
+      return () => window.removeEventListener("resize", fn);
+    }, [bp]);
+    return isMobile;
+  }
+
 
 const TOTAL = 6;
 
@@ -75,19 +77,19 @@ function CardFooter({ index, light }) {
   );
 }
 
-function CardIntro({ data }) {
+function CardIntro({ data, t }) {
   return (
     <div style={{ ...S.inner, background:"var(--bg3)",color:"var(--text)" }}>
       <TopographBg id="topo-intro"/>
       <Deco size={200} bg="var(--mute2)"  top={-60}  right={-60}/>
       <Deco size={110} bg="var(--mute)"   bottom={40} left={-30}/>
       <div style={{ position:"relative",zIndex:1 }}>
-        <div style={S.tag("var(--highlight)")}>{data.monthLabel} · Wrapped</div>
+        <div style={S.tag("var(--highlight)")}>{data.monthLabel} · {t.wrapped.label}</div>
         <div style={{ marginTop:14,fontSize:22,fontWeight:800,lineHeight:1.25,color:"var(--text)" }}>
-          Another month<br/>on the rise. 🔥
+          {t.wrapped.tagline}
         </div>
         <div style={{ marginTop:10,fontSize:13,color:"var(--text3)",lineHeight:1.6 }}>
-          Kamu makin konsisten.<br/>Ini recap {data.monthLabel} kamu.
+          {t.wrapped.intro(data.monthLabel)}
         </div>
       </div>
       <CardFooter index={1} light/>
@@ -95,18 +97,18 @@ function CardIntro({ data }) {
   );
 }
 
-function CardTasks({ data }) {
+function CardTasks({ data, t }) {
   const bars = [{ v:18,l:"W1" },{ v:22,l:"W2" },{ v:19,l:"W3" },{ v:25,l:"W4" }];
   return (
     <div style={{ ...S.inner, background:"var(--highlight)",color:"white" }}>
       <Deco size={220} bg="rgba(255,255,255,0.12)" top={-80} right={-80}/>
       <div style={{ position:"relative",zIndex:1 }}>
-        <div style={S.tag("rgba(255,255,255,0.7)")}>Tasks</div>
+        <div style={S.tag("rgba(255,255,255,0.7)")}>{t.wrapped.tasksTag}</div>
         <div style={{ marginTop:8 }}>
           <span style={S.bigNum}>{data.stats.tasksDone.value}</span>
-          <span style={S.bigUnit}>tugas</span>
+          <span style={S.bigUnit}>{t.wrapped.taskUnit}</span>
         </div>
-        <div style={S.bigLabel}>selesai bulan ini</div>
+        <div style={S.bigLabel}>{t.wrapped.tasksDoneThisMonth}</div>
         <div style={S.bigSub}>↑ {data.stats.tasksDone.delta}</div>
         <div style={{ display:"flex",alignItems:"flex-end",gap:5,height:50,marginTop:12 }}>
           {bars.map((b,i) => (
@@ -122,20 +124,20 @@ function CardTasks({ data }) {
   );
 }
 
-function CardFocus({ data }) {
+function CardFocus({ data, t }) {
   return (
     <div style={{ ...S.inner, background:"var(--accent)",color:"white" }}>
       <Deco size={180} bg="rgba(255,255,255,0.08)" bottom={-50} left={-50}/>
       <div style={{ position:"relative",zIndex:1 }}>
-        <div style={S.tag("rgba(255,255,255,0.65)")}>Focus time</div>
+        <div style={S.tag("rgba(255,255,255,0.65)")}>{t.wrapped.focusTag}</div>
         <div style={{ marginTop:8 }}>
           <span style={S.bigNum}>{data.stats.focusTime.value}</span>
-          <span style={S.bigUnit}>jam</span>
+          <span style={S.bigUnit}>{t.wrapped.hourUnit}</span>
         </div>
-        <div style={S.bigLabel}>total fokus bulan ini</div>
-        <div style={S.bigSub}>Rata-rata 1.5 jam per hari</div>
+        <div style={S.bigLabel}>{t.wrapped.totalFocusThisMonth}</div>
+        <div style={S.bigSub}>{t.wrapped.avgPerDay}</div>
         <div style={{ marginTop:10,background:"rgba(255,255,255,0.1)",borderRadius:12,padding:"10px 12px" }}>
-          <div style={{ fontSize:9,color:"rgba(255,255,255,0.5)",marginBottom:7,letterSpacing:1,textTransform:"uppercase" }}>Distribusi</div>
+          <div style={{ fontSize:9,color:"rgba(255,255,255,0.5)",marginBottom:7,letterSpacing:1,textTransform:"uppercase" }}>{t.wrapped.distribution}</div>
           {data.categories.map(c => (
             <div key={c.label} style={{ marginBottom:6 }}>
               <div style={{ display:"flex",justifyContent:"space-between",fontSize:11,color:"rgba(255,255,255,0.7)",marginBottom:3 }}>
@@ -153,20 +155,20 @@ function CardFocus({ data }) {
   );
 }
 
-function CardStreak({ data }) {
+function CardStreak({ data, t }) {
   return (
     <div style={{ ...S.inner, background:"var(--bg)",color:"var(--text)" }}>
       <TopographBg id="topo-streak"/>
       <div style={{ position:"relative",zIndex:1 }}>
-        <div style={S.tag("var(--highlight)")}>Streak</div>
+        <div style={S.tag("var(--highlight)")}>{t.wrapped.streakTag}</div>
         <div style={{ marginTop:8 }}>
           <span style={{ ...S.bigNum,color:"var(--highlight)" }}>{data.stats.bestStreak.value}</span>
-          <span style={{ ...S.bigUnit,color:"var(--text3)" }}>hari</span>
+          <span style={{ ...S.bigUnit,color:"var(--text3)" }}>{t.wrapped.dayUnit}</span>
         </div>
-        <div style={{ ...S.bigLabel,color:"var(--text)" }}>streak terpanjang</div>
-        <div style={{ ...S.bigSub,color:"var(--text3)" }}>Personal best! Pertahankan 💪</div>
+        <div style={{ ...S.bigLabel,color:"var(--text)" }}>{t.wrapped.longestStreak}</div>
+        <div style={{ ...S.bigSub,color:"var(--text3)" }}>{t.wrapped.personalBest}</div>
         <div style={{ marginTop:14 }}>
-          <div style={{ fontSize:9,color:"var(--text3)",marginBottom:6,letterSpacing:1,textTransform:"uppercase" }}>Check-in bulan ini</div>
+          <div style={{ fontSize:9,color:"var(--text3)",marginBottom:6,letterSpacing:1,textTransform:"uppercase" }}>{t.wrapped.checkinThisMonth}</div>
           <div style={{ display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:4 }}>
             {data.streakDays.map((v,i) => (
               <div key={i} style={{ aspectRatio:"1",borderRadius:5,background:v?"var(--highlight)":"var(--border)" }}/>
@@ -179,16 +181,16 @@ function CardStreak({ data }) {
   );
 }
 
-function CardCategories({ data }) {
+function CardCategories({ data, t }) {
   return (
     <div style={{ ...S.inner, background:"var(--surface2)",color:"var(--text)" }}>
       <Deco size={160} bg="var(--mute)"  top={-40}  right={-40}/>
       <Deco size={100} bg="var(--mute2)" bottom={20} left={-20}/>
       <TopographBg id="topo-cat"/>
       <div style={{ position:"relative",zIndex:1 }}>
-        <div style={S.tag("var(--accent)")}>Top Kategori</div>
+        <div style={S.tag("var(--accent)")}>{t.wrapped.categoriesTag}</div>
         <div style={{ marginTop:12,fontSize:18,fontWeight:800,lineHeight:1.3,color:"var(--text)" }}>
-          Kamu paling<br/>produktif di<br/>
+          {t.wrapped.mostProductiveIn}
           <span style={{ color:"var(--highlight)" }}>{data.topTags[0]} & {data.topTags[1]}</span>
         </div>
         <div style={{ display:"flex",flexWrap:"wrap",gap:5,marginTop:12 }}>
@@ -196,7 +198,7 @@ function CardCategories({ data }) {
           {data.allTags.map(t  => <span key={t} style={{ ...S.pillBase,color:"var(--text2)",background:"var(--border2)",border:"0.5px solid var(--border)" }}>{t}</span>)}
         </div>
         <div style={{ marginTop:16,fontSize:12,color:"var(--text3)",lineHeight:1.6 }}>
-          {data.stats.notes.value} notes · {data.stats.bestStreak.value} hari streak
+          {`${data.stats.notes.value} ${t.wrapped.notesUnit} · ${data.stats.bestStreak.value} ${t.wrapped.dayUnit} ${t.wrapped.streakLabel}`}
         </div>
       </div>
       <CardFooter index={5} light/>
@@ -204,21 +206,20 @@ function CardCategories({ data }) {
   );
 }
 
-function CardProjection({ data }) {
+function CardProjection({ data, t }) {
   const targets = [
-    { label:"Target tasks",  value:`${Math.round(data.stats.tasksDone.value*1.2)} tugas`,  color:"var(--highlight)" },
-    { label:"Target streak", value:`${Math.round(data.stats.bestStreak.value*1.2)} hari`,  color:"var(--accent)"    },
-    { label:"Target fokus",  value:`${Math.round(data.stats.focusTime.value*1.2)} jam`,    color:"var(--accent2)"   },
+    { label:t.wrapped.targetTasks,  value:`${Math.round(data.stats.tasksDone.value*1.2)} ${t.wrapped.taskUnit}`,  color:"var(--highlight)" },
+    { label:t.wrapped.targetStreak, value:`${Math.round(data.stats.bestStreak.value*1.2)} ${t.wrapped.dayUnit}`,  color:"var(--accent)"    },
+    { label:t.wrapped.targetFocus,  value:`${Math.round(data.stats.focusTime.value*1.2)} ${t.wrapped.hourUnit}`,    color:"var(--accent2)"   },
   ];
   return (
     <div style={{ ...S.inner, background:"var(--surface)",color:"var(--text)" }}>
       <Deco size={200} bg="var(--mute2)" top={-60} right={-60}/>
       <TopographBg id="topo-proj"/>
       <div style={{ position:"relative",zIndex:1 }}>
-        <div style={S.tag("var(--highlight)")}>Bulan depan</div>
+        <div style={S.tag("var(--highlight)")}>{t.wrapped.nextMonthTag}</div>
         <div style={{ marginTop:12,fontSize:16,fontWeight:800,color:"var(--text)",lineHeight:1.35 }}>
-          Kalau kamu jaga<br/>ritme ini, bulan depan<br/>kamu bisa capai<br/>
-          <span style={{ color:"var(--highlight)" }}>{Math.round(data.stats.tasksDone.value*1.2)} tugas.</span>
+          {t.wrapped.nextMonthDesc(Math.round(data.stats.tasksDone.value*1.2))}
         </div>
         <div style={{ display:"flex",flexDirection:"column",gap:6,marginTop:12 }}>
           {targets.map(t => (
@@ -236,14 +237,6 @@ function CardProjection({ data }) {
 
 const CARD_COMPONENTS = [CardIntro, CardTasks, CardFocus, CardStreak, CardCategories, CardProjection];
 
-const QUOTES = [
-  "Small steps every day.",
-  "Consistency beats intensity.",
-  "Progress, not perfection.",
-  "Keep the streak alive.",
-  "You're on a rise.",
-  "Another month, another win.",
-];
 
 // ── Inject styles once ──
 if (typeof document !== "undefined" && !document.getElementById("wrapped-style")) {
@@ -321,7 +314,8 @@ if (typeof document !== "undefined" && !document.getElementById("wrapped-style")
 // ══ MAIN COMPONENT ══
 export default function WrappedSwipeCards({ month, year, data }) {
 
-  const isMobile = useIsMobile(900); // ← tambah ini
+  const isMobile = useIsMobile(900);
+  const { t } = useLanguage();
 
   const [current,    setCurrent]    = useState(0);
   const [dismissed,  setDismissed]  = useState(false);
@@ -405,7 +399,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
               color: "var(--text3)",
               marginBottom: 12,
             }}>
-              Monthly Wrapped
+              {t.wrapped.label}
             </div>
             <div
               className="wrapped-headline"
@@ -425,16 +419,16 @@ export default function WrappedSwipeCards({ month, year, data }) {
               className="wrapped-body-text"
               style={{ fontSize: "1.2rem", color: "var(--text2)", lineHeight: 1.7 }}
             >
-              Bulan yang luar biasa!<br/>Kamu makin konsisten dan terus berkembang.
+              {t.wrapped.bodyText}
             </div>
           </div>
 
           {/* Stats */}
           <div style={{ display: "flex", flexDirection: "column" }}>
             {[
-              { label: "Tasks selesai", value: `${data.stats.tasksDone.value} tugas` },
-              { label: "Focus time",    value: `${data.stats.focusTime.value} jam`   },
-              { label: "Best streak",   value: `${data.stats.bestStreak.value} hari`  },
+              { label: t.wrapped.tasksDoneLabel, value: `${data.stats.tasksDone.value} ${t.wrapped.taskUnit}` },
+              { label: t.wrapped.focusTimeLabel, value: `${data.stats.focusTime.value} ${t.wrapped.hourUnit}` },
+              { label: t.wrapped.bestStreakLabel, value: `${data.stats.bestStreak.value} ${t.wrapped.dayUnit}` },
             ].map((s, i) => (
               <div
                 key={i}
@@ -461,7 +455,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
                 className="wrapped-quote-text"
                 style={{ fontSize: 20, color: "var(--text2)", fontStyle: "italic", lineHeight: 1.6 }}
               >
-                "{QUOTES[current % QUOTES.length]}"
+                {t.wrapped.quotes[current % t.wrapped.quotes.length]}
               </div>
             </div>
             <button onClick={dismiss} style={{
@@ -474,7 +468,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
               cursor: "pointer",
               fontFamily: "inherit",
             }}>
-              Tutup ✕
+              {t.wrapped.closeBtn}
             </button>
           </div>
         </div>
@@ -539,7 +533,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
                     touchAction: "none", // penting buat mobile swipe
                   }}
                 >
-                  <CardComp data={data}/>
+                  <CardComp data={data} t={t}/>
                 </div>
               );
             })}
@@ -574,7 +568,7 @@ export default function WrappedSwipeCards({ month, year, data }) {
                 </svg>
               </button>
             </div>
-            <span style={{ fontSize: 11, color: "var(--text3)" }}>Swipe atau klik kartu di belakang</span>
+            <span style={{ fontSize: 11, color: "var(--text3)" }}>{t.wrapped.swipeHint}</span>
           </div>
         </div>
 
