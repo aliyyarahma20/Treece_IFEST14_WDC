@@ -307,6 +307,22 @@ export const translations = {
       reset: "Reset",
       sessionsToday: "Sessions Today",
       totalFocus: "Total Focus Time",
+
+      quotesFocus: [
+        "25 minutes of focus, lifetime of results. 💪",
+        "One more session, closer to your goal. 🎯",
+        "Kill distractions, ignite your potential. 🔥",
+        "Great students are built from small habits. ⚡",
+        "Deep work beats busy work. 🧠",
+      ],
+      quotesRest: [
+        "Short break, sharper mind. ☕",
+        "Stretch your body, reset your mind. 🧘",
+        "Breathe deep, you've worked hard! 🌿",
+        "Hydrate first, then get back to it. 💧",
+        "These 5 minutes fuel your next session. ✨",
+      ],
+  
     },
 
     // ── Habit ──
@@ -630,6 +646,21 @@ export const translations = {
       reset: "Reset",
       sessionsToday: "Sesi Hari Ini",
       totalFocus: "Total Waktu Fokus",
+
+      quotesFocus: [
+        "Fokus 25 menit, hasil seumur hidup. 💪",
+        "Satu sesi lagi, semakin dekat ke tujuan. 🎯",
+        "Matikan distraksi, nyalakan potensi. 🔥",
+        "Mahasiswa hebat lahir dari kebiasaan kecil. ⚡",
+        "Deep work beats busy work. 🧠",
+      ],
+      quotesRest: [
+        "Istirahat sebentar, otak makin tajam. ☕",
+        "Regangkan badan, siapkan pikiran. 🧘",
+        "Napas dalam, kamu sudah kerja keras! 🌿",
+        "Hydrate dulu, baru gas lagi. 💧",
+        "5 menit ini investasi untuk sesi berikutnya. ✨",
+      ],
     },
 
     habit: {

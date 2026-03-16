@@ -315,16 +315,12 @@ const GlobalStyle = () => (
     @media (max-width: 768px) {
       .landing-nav-right {
         gap: 8px !important;
-        flex-shrink: 0;        /* ← tambah */
+        flex-shrink: 0;       
       }
       .lang-toggle {
         width: 60px !important;
         height: 28px !important;
         flex-shrink: 0;
-      }
-      /* Pastikan nav tidak overflow */
-      nav {
-        overflow: hidden !important;
       }
 
       .feat-heading {
@@ -334,6 +330,89 @@ const GlobalStyle = () => (
       .feat-desc {
         white-space: normal !important;
         font-size: 0.77rem !important;
+      }
+    }
+
+     /* ── NAVBAR RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .navbar-cta span {
+        display: none;
+      }
+      .navbar-cta {
+        padding: 8px 14px !important;
+        font-size: 0.8rem !important;
+        min-width: unset !important;
+      }
+    }
+
+    /* ── HERO RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-top-row {
+        flex-direction: column !important;
+        gap: 24px !important;
+      }
+      .hero-left {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+      }
+      .hero-right {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+      }
+      .hero-headline {
+        font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
+        letter-spacing: -1px !important;
+      }
+    }
+
+    /* ── LANDING FEATURE TABS ── */
+    @media (max-width: 768px) {
+      .feature-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .feature-tabs {
+        border-right: none !important;
+        border-bottom: 1px solid var(--border);
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto;
+        padding: 8px !important;
+        gap: 6px;
+      }
+      .feature-tabs button {
+        flex-shrink: 0;
+        width: auto !important;
+        padding: 8px 12px !important;
+      }
+      .feature-preview {
+        padding: 20px 16px !important;
+      }
+      .scroll-indicator {
+        display: none !important;
+      }
+      .hero-mockup {
+        margin-top: 24px;
+      }
+    }
+
+    /* ── TARGET PAGE RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .pomodoro-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .target-header-actions {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .target-header-actions {
+        width: 100% !important;
+      }
+      .target-header-actions button {
+        flex: 1 !important;
+        justify-content: center !important;
       }
     }
 
@@ -398,79 +477,10 @@ const GlobalStyle = () => (
       }
     }
 
-    /* ── POMODORO CENTERED LAYOUT ── */
-    @media (max-width: 480px) {
-      .pomodoro-wrap {
-        padding: 24px 16px !important;
-      }
-    }
-
     /* ── HABIT TRACKER ── */
     @media (max-width: 480px) {
       .habit-day-grid {
         gap: 4px !important;
-      }
-    }
-
-    /* ── NAVBAR RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .navbar-cta span {
-        display: none;
-      }
-      .navbar-cta {
-        padding: 8px 14px !important;
-        font-size: 0.8rem !important;
-        min-width: unset !important;
-      }
-    }
-
-    /* ── HERO RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .hero-top-row {
-        flex-direction: column !important;
-        gap: 24px !important;
-      }
-      .hero-left {
-        flex: 1 1 100% !important;
-        max-width: 100% !important;
-      }
-      .hero-right {
-        flex: 1 1 100% !important;
-        width: 100% !important;
-      }
-      .hero-headline {
-        font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
-        letter-spacing: -1px !important;
-      }
-    }
-
-    /* ── LANDING FEATURE TABS ── */
-    @media (max-width: 768px) {
-      .feature-grid {
-        grid-template-columns: 1fr !important;
-      }
-      .feature-tabs {
-        border-right: none !important;
-        border-bottom: 1px solid var(--border);
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto;
-        padding: 8px !important;
-        gap: 6px;
-      }
-      .feature-tabs button {
-        flex-shrink: 0;
-        width: auto !important;
-        padding: 8px 12px !important;
-      }
-      .feature-preview {
-        padding: 20px 16px !important;
-      }
-      .scroll-indicator {
-        display: none !important;
-      }
-      .hero-mockup {
-        margin-top: 24px;
       }
     }
 
@@ -483,29 +493,29 @@ const GlobalStyle = () => (
     }
 
     @media (max-width: 768px) {
-      .app-main {
+    .app-main {
         margin-left: 0 !important;
         padding: 72px 16px 96px !important;
       }
-}
+    }
 
-/* ── NOTES PAGE RESPONSIVE ── */
-.notes-grid {
-  columns: 2 280px;
-  gap: 14px;
-  border-radius: 14px;
-  overflow: hidden;
-  transition: filter 0.3s ease;
-}
+    /* ── NOTES PAGE RESPONSIVE ── */
+    .notes-grid {
+      columns: 2 280px;
+      gap: 14px;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: filter 0.3s ease;
+    }
 
-@media (max-width: 768px) {
-  .notes-grid {
-    columns: 1 !important;
-  }
-  .notes-form-bottom {
-    grid-template-columns: 1fr !important;
-  }
-}
+    @media (max-width: 768px) {
+      .notes-grid {
+        columns: 1 !important;
+      }
+      .notes-form-bottom {
+        grid-template-columns: 1fr !important;
+      }
+    }
 
   `}</style>
 );
