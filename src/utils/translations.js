@@ -713,7 +713,7 @@ export const translations = {
 
 
     recap: {
-      title: "Monthly Recap",
+      title: "Recap Bulanan",
       totalTasks: "Total Tugas",
       completed: "Selesai",
       studyHours: "Jam Belajar",
