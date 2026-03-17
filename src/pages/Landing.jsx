@@ -60,11 +60,41 @@ export default function Landing({ onEnter }) {
   const { t, lang, toggleLang } = useLanguage();
 
   const FEATURES = [
-    { id: "dashboard", icon: <LayoutDashboard size={22} />, tag: t.landing.tags[0], preview: <img src="/images/preview-dashboard.png" alt="Dashboard" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[0] },
-    { id: "todo",      icon: <CheckSquare size={22} />,     tag: t.landing.tags[1], preview: <img src="/images/preview-todo.png" alt="Task Manager" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[1] },
-    { id: "target",    icon: <Target size={22} />,          tag: t.landing.tags[2], preview: <img src="/images/preview-target.png" alt="Target" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[2] },
-    { id: "recap",     icon: <BarChart2 size={22} />,       tag: t.landing.tags[3], preview: <img src="/images/preview-recap.png" alt="Monthly Recap" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[3] },
-    { id: "notes",     icon: <BookOpen size={22} />,        tag: t.landing.tags[4], preview: <img src="/images/preview-notes.png" alt="Catatan Belajar" style={{ width: "100%", borderRadius: 10, display: "block" }} />, ...t.features.items[4] },
+  {
+      id: "dashboard",
+      icon: <LayoutDashboard size={22} />,
+      tag: t.landing.tags[0],
+      preview: <img src={lang === "en" ? "/images/preview-dashboard-en.png" : "/images/preview-dashboard-id.png"} alt="Dashboard" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+      ...t.features.items[0]
+    },
+    {
+      id: "todo",
+      icon: <CheckSquare size={22} />,
+      tag: t.landing.tags[1],
+      preview: <img src={lang === "en" ? "/images/preview-todo-en.png" : "/images/preview-todo-id.png"} alt="Task Manager" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+      ...t.features.items[1]
+    },
+    {
+      id: "target",
+      icon: <Target size={22} />,
+      tag: t.landing.tags[2],
+      preview: <img src={lang === "en" ? "/images/preview-target-en.png" : "/images/preview-target-id.png"} alt="Target" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+      ...t.features.items[2]
+    },
+    {
+      id: "recap",
+      icon: <BarChart2 size={22} />,
+      tag: t.landing.tags[3],
+      preview: <img src={lang === "en" ? "/images/preview-recap-en.png" : "/images/preview-recap-id.png"} alt="Monthly Recap" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+      ...t.features.items[3]
+    },
+    {
+      id: "notes",
+      icon: <BookOpen size={22} />,
+      tag: t.landing.tags[4],
+      preview: <img src={lang === "en" ? "/images/preview-notes-en.png" : "/images/preview-notes-id.png"} alt="Catatan Belajar" style={{ width: "100%", borderRadius: 10, display: "block" }} />,
+      ...t.features.items[4]
+    },
   ];
 
   const heroRef = useRef();
@@ -105,7 +135,7 @@ export default function Landing({ onEnter }) {
     if (isPaused) return;
     const timer = setInterval(() => {
       setActiveFeature((p) => (p + 1) % FEATURES.length);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(timer);
   }, [isPaused]);
 
@@ -366,7 +396,11 @@ export default function Landing({ onEnter }) {
             <div style={{ flex: 1, height: 6, background: "var(--surface2)", borderRadius: 99, marginLeft: 4 }} />
           </div>
           <div style={{ lineHeight: 0 }}>
-            <img src="/images/mockup-hero.png" alt="SteadyRise App" style={{ width: "100%", display: "block", borderRadius: 8 }} />
+            <img
+              src={lang === "en" ? "/images/mockup-hero-en.png" : "/images/mockup-hero-id.png"}
+              alt="SteadyRise App"
+              style={{ width: "100%", display: "block", borderRadius: 8 }}
+            />
           </div>
         </div>
       </section>

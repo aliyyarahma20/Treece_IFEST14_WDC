@@ -13,8 +13,8 @@ const INITIAL = [
   { id: 3, title: "Basis Data — Normalisasi",    content: "Normalisasi bertujuan mengurangi redundansi:\n1NF: Setiap kolom atomik\n2NF: Tidak ada partial dependency\n3NF: Tidak ada transitive dependency", tag: "Kuliah",  color: "orange", createdAt: "2026-03-10" },
 ];
 
-const COLOR_BG     = { lime: "var(--mute)",    peach: "var(--mute2)",    orange: "var(--highlight)" };
-const COLOR_BORDER = { lime: "var(--accent)",  peach: "var(--highlight)", orange: "var(--border)"   };
+const COLOR_BG     = { lime: "var(--mute)",    peach: "var(--mute2)",    orange: "var(--border)" };
+const COLOR_BORDER = { lime: "var(--accent)",  peach: "var(--highlight2)", orange: "var(--highlight)"   };
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;

@@ -132,8 +132,8 @@ export const translations = {
       cta_btn2: "Get Started",
       coba: "Try this feature",
       checklist: [
-        "Manage study activities more structured",
-        "Auto sync with Google Calendar",
+        "Sync reminder with Google Calendar",
+        "Summarize study notes automatically with AI",
         "Available in 2 languages: Indonesian & English",
         "Customize: theme, font, and text size",
       ],
@@ -540,8 +540,8 @@ export const translations = {
       cta_btn2: "Mulai Sekarang",
       coba: "Coba fitur ini",
       checklist: [
-        "Kelola aktivitas belajar dengan lebih terstruktur",
-        "Sinkronisasi otomatis dengan Google Calendar",
+        "Sinkronisasi pengingat dengan Google Calendar",
+        "Rangkum catatan belajar otomatis dengan AI",
         "Tersedia dalam 2 bahasa: Indonesia dan Inggris",
         "Kustomisasi tampilan: tema, font, dan ukuran teks",
       ],
