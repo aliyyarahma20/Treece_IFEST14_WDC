@@ -295,7 +295,7 @@ export default function SettingsPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 10, color: "var(--text)" }}>
           {[
             { code: "en", label: { en: "English",   id: "Inggris"   }, sub: "English",          flag: "EN" },
-            { code: "id", label: { en: "Indonesian", id: "Indonesia" }, sub: "Bahasa Indonesia", flag: "🇮🇩" },
+            { code: "id", label: { en: "Indonesian", id: "Indonesia" }, sub: "Bahasa Indonesia", flag: "ID" },
           ].map(l => {
             const active = lang === l.code;
             return (
