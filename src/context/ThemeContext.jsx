@@ -19,6 +19,17 @@ export function ThemeProvider({ children }) {
     document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
+  useEffect(() => {
+    const session = localStorage.getItem("sr_session");
+    const hasValidSession = (() => {
+      try {
+        const parsed = JSON.parse(session);
+        return Date.now() < parsed.expiresAt;
+      } catch { return false; }
+    })();
+    document.body.setAttribute("data-theme", hasValidSession ? theme : "morning-mist");
+  }, []);
+
   return (
     <ThemeCtx.Provider value={{ theme, setTheme }}>
       {children}
