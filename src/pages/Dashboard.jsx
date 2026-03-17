@@ -63,7 +63,8 @@ export default function Dashboard({ tasks, setTasks }) {
   ];
   const maxH = Math.max(...weekActivity.map((w) => w.h));
 
-  const firstDay     = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+  const rawFirstDay = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+  const firstDay = (rawFirstDay + 6) % 7;
   const daysInMonth  = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
   const productive   = [2, 4, 5, 7, 9, 10, 11, 14, 16, 17, 18, 21, 23];
 
@@ -104,28 +105,35 @@ export default function Dashboard({ tasks, setTasks }) {
 
       {/* Charts */}
       <div className="grid-2col" style={{ gap: 16, marginBottom: 16 }}>
-        {/* Weekly bar chart */}
-        <Card>
-          <div style={{fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center", color:"var(--accent)" }}>
+        <Card style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center", color: "var(--accent)" }}>
             {t.dashboard.weeklyActivity}
             <span style={{ fontSize: "0.75rem", color: "var(--text3)", fontWeight: 400 }}>{t.dashboard.studyHoursLabel}</span>
           </div>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 100 }}>
+
+          {/* flex: 1 supaya bar mengisi sisa tinggi card */}
+          <div style={{ display: "flex", gap: 8, flex: 1 }}>
             {weekActivity.map((w, i) => {
               const isToday = i === ((today.getDay() + 6) % 7);
               return (
-                <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: `${(w.h / maxH) * 90}%`,
-                      minHeight: 4,
-                      background: isToday ? "var(--highlight)" : "var(--mute)",
-                      border: isToday ? "none" : "1px solid var(--border)",
-                      borderRadius: "6px 6px 0 0",
-                      transition: "height 0.6s cubic-bezier(0.22,1,0.36,1)",
-                    }}
-                  />
+                <div key={i} style={{ 
+                  flex: 1, 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  alignItems: "center", 
+                  justifyContent: "flex-end",
+                  gap: 4,
+                  height: "100%",
+                }}>
+                  <div style={{
+                    width: "100%",
+                    height: `${(w.h / maxH) * 80}%`,
+                    minHeight: 4,
+                    background: isToday ? "var(--highlight)" : "var(--mute)",
+                    border: isToday ? "none" : "1px solid var(--border)",
+                    borderRadius: "6px 6px 0 0",
+                    transition: "height 0.6s cubic-bezier(0.22,1,0.36,1)",
+                  }} />
                   <span style={{ fontSize: "0.68rem", color: isToday ? "var(--accent)" : "var(--text3)", fontWeight: isToday ? 700 : 400 }}>
                     {w.d}
                   </span>
