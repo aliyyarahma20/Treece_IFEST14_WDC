@@ -38,7 +38,7 @@ export default function RecapPage() {
       >
         <div style={{ position: "absolute", right: 24, bottom: -10, opacity: 0.08, color: "var(--hero-text)" }}><BarChart2 size={160} /></div>
         <div style={{ marginBottom: 12 }}>
-          <Badge color="accent">+{improvePct}% {t.recap.vsLastMonth}</Badge>
+          <Badge color="--text">+{improvePct}% {t.recap.vsLastMonth}</Badge>
         </div>
 
         <div style={{ fontSize: "0.8rem", color: "var(--hero-label)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>
@@ -89,9 +89,17 @@ export default function RecapPage() {
           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, marginBottom: 16, color: "var(--text)" }}>
             {t.recap.weeklyTasks}
           </div>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 10, height: 130 }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 10, height: 200 }}>
             {WEEK.map((w, i) => (
-              <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+              <div key={i} style={{ 
+                flex: 1, 
+                display: "flex", 
+                flexDirection: "column", 
+                alignItems: "center", 
+                justifyContent: "flex-end",
+                gap: 6, 
+                height: "100%"
+              }}>
                 <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--text3)" }}>{w.v}</span>
                 <div
                   style={{
@@ -131,8 +139,8 @@ export default function RecapPage() {
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 3, height: 6, borderRadius: 99, overflow: "hidden" }}>
-                  <div style={{ flex: c.prev, background: "var(--border)" }} />
-                  <div style={{ flex: c.cur - c.prev, background: "var(--accent)" }} />
+                  <div style={{ flex: c.prev, background: "var(--accent)" }} />
+                  <div style={{ flex: c.cur - c.prev, background: "var(--border)" }} />
                 </div>
               </div>
             ))}
