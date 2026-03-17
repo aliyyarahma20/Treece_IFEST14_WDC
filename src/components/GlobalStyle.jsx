@@ -213,6 +213,11 @@ const GlobalStyle = () => (
       50%       { transform: translateY(-10px); }
     }
 
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
     .app-main {
       margin-left: var(--sidebar-width);
       padding: 28px 32px;
