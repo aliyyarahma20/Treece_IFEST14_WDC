@@ -8,7 +8,6 @@
  
 ## 👥 Tim
  
-| | |
 |---|---|
 | **Nama Tim** | Treece |
 | **Dengan Backend** | Tidak (Frontend Only) |
@@ -18,7 +17,6 @@
  
 ## 🌐 Link
  
-| | |
 |---|---|
 | 🔗 **Live Demo** | *https://steadyrise.vercel.app/* |
 | 📁 **Repository** | *https://github.com/aliyyarahma20/Treece_IFEST14_WDC.git* |
